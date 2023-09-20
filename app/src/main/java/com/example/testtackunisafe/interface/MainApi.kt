@@ -1,7 +1,8 @@
-package com.example.testtackunisafe
+package com.example.testtackunisafe.`interface`
 
 import com.example.testtackunisafe.recevied_data.ReceivedData
 import com.example.testtackunisafe.recevied_data.ReceivedDataListId
+import retrofit2.Response
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -9,11 +10,11 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface MainApi {
-    @POST("/CreateTestKey?")
-    suspend fun createTestKey(): ReceivedData
+    @POST("/CreateTestKey")
+    suspend fun createTestKey(): Response<ReceivedData>
 
     @GET("/Authentication?key={keyValue}")
-    suspend fun getProductById(@Query("keyValue")keyValue:String):Boolean
+    suspend fun getProductById(@Query("keyValue")keyValue:String):ReceivedData
 
     @POST("/CreateShoppingList?key={keyValue}&name={Shopping}%20with%20bestie")
     suspend fun createShoppingList(@Path("keyValue")keyValue:String,

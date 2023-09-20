@@ -2,6 +2,7 @@ package com.example.testtackunisafe
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.testtackunisafe.adapter.ProductAdapter
 import com.example.testtackunisafe.databinding.ActivityMainBinding
@@ -15,6 +16,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,15 +34,31 @@ class MainActivity : AppCompatActivity() {
         binding.startBtn.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 val keyValue = mainApi.createTestKey()
+                val idList = mainApi.getProductById(keyValue.key)
                 runOnUiThread {
-                    binding.apply {
-                        val keyViewModel = keyValue
-                    }
+
+
                 }
             }
-
-
         }
+        /*
+        val viewModel = ViewModelProvider(this).get(KeyViewModel::class.java)
+
+// Устанавливаем тестовый ключ
+        viewModel.setTestKey("Ваш тестовый ключ")
+
+// Устанавливаем ключ, полученный в других запросах
+        viewModel.setApiKey("Ваш ключ из другого запроса")
+
+// Вызываем метод createShoppingList с именем списка
+        val response = viewModel.createShoppingList("Shopping with bestie")
+
+        if (response.success) {
+            // Обработка успешного ответа, например, получение list_id
+            val listId = response.list_id
+        } else {
+            // Обработка ошибки, если success = false
+        }
+    }*/
     }
 }
-

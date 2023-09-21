@@ -5,3 +5,4 @@ data class ReceivedData(
     val success: Boolean
 )
 
+

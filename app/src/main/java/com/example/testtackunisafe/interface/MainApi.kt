@@ -1,7 +1,6 @@
 package com.example.testtackunisafe.`interface`
 
 import com.example.testtackunisafe.recevied_data.ReceivedData
-import com.example.testtackunisafe.recevied_data.ReceivedDataListId
 import retrofit2.Response
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -24,10 +23,15 @@ interface MainApi {
     ): Response<ReceivedData>
     //https://cyberprot.ru/shopping/v1/CreateShoppingList?key=92EGHS&name=Shopping%20with%20bestie
     @DELETE("/RemoveShoppingList?list_{id}")
-    suspend fun removeShoppingList(@Path("id")id:Int):ReceivedDataListId
+    suspend fun removeShoppingList(@Path("id")id:Int):ReceivedData
 
     @POST("/AddToShoppingList?id={id}&value=tools&n=3")
     suspend fun addToShoppingList(@Path("id")id:String)
+
+    @GET("/GetShoppingList")
+    suspend fun getSoppingList(@Query("key")key:String):ReceivedData
+//    https://cyberprot.ru/shopping/v1/GetAllMyShopLists?key=92EGHS
+//    {"shop_list":[{"created":"2023-08-28 06:35:44","name":"Test1","id":2},...,"success":true}
 }
 
 

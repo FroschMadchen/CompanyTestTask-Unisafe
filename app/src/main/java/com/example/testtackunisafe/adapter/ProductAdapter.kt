@@ -9,22 +9,22 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.testtackunisafe.R
 import com.example.testtackunisafe.databinding.ItemProductBinding
 
-class ProductAdapter : ListAdapter<Product, ProductAdapter.Holder>(Comparator()){
+class ProductAdapter : ListAdapter<Shop, ProductAdapter.Holder>(Comparator()){
     class  Holder (view: View): RecyclerView.ViewHolder(view){
         private  val binding = ItemProductBinding.bind(view)
 
-        fun bind(product: Product)= with(binding){
-            titleTV.text = product.title
-            descriptionTV.text = product.description
+        fun bind(shop: Shop)= with(binding){
+            titleTV.text = shop.name
+            descriptionTV.text = shop.created
         }
     }
 
-    class Comparator : DiffUtil.ItemCallback<Product>(){
-        override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
+    class Comparator : DiffUtil.ItemCallback<Shop>(){
+        override fun areItemsTheSame(oldItem: Shop, newItem: Shop): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {
+        override fun areContentsTheSame(oldItem: Shop, newItem: Shop): Boolean {
             return oldItem == newItem
         }
 
@@ -41,4 +41,6 @@ class ProductAdapter : ListAdapter<Product, ProductAdapter.Holder>(Comparator())
         holder.bind(getItem(position))
 
     }
+
+
 }

@@ -1,12 +1,7 @@
 package com.example.testtackunisafe
 
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.testtackunisafe.`interface`.MainApi
-import com.example.testtackunisafe.recevied_data.ReceivedDataListId
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class KeyViewModel : ViewModel() {
     private var testKey: String = "" // Здесь храните тестовый ключ

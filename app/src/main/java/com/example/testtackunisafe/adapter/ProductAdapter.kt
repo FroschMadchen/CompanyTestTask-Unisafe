@@ -43,4 +43,5 @@ class ProductAdapter : ListAdapter<Shop, ProductAdapter.Holder>(Comparator()){
     }
 
 
+
 }

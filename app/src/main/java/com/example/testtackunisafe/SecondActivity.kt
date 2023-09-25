@@ -1,9 +1,11 @@
 package com.example.testtackunisafe
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.testtackunisafe.adapter.ProductAdapter
+import com.example.testtackunisafe.adapter.Shop
 import com.example.testtackunisafe.databinding.ActivityMainBinding
 import com.example.testtackunisafe.databinding.SecondActivityBinding
 import com.example.testtackunisafe.`interface`.MainApi
@@ -33,12 +35,18 @@ class SecondActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch{
             val keyValue = intent.getStringExtra("keyV")
-            val objectList = keyValue?.let { mainApi.getSoppingList(it) }
+
+           if (keyValue != null){
+               Log.d("SecondActivity", "Received keyV: $keyValue")
+           }else{
+               Log.e("SecondActivity", "keyV is null")
+           }
+        /*    val objectList = keyValue?.let { mainApi.getSoppingList(it) }
             runOnUiThread{
                 binding.apply {
                     adapter.submitList(objectList.shop_list)
                 }
-            }
+            }*/
         }
 
 

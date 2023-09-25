@@ -4,14 +4,14 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.testtackunisafe.adapter.ProductAdapter
 import com.example.testtackunisafe.databinding.ActivityMainBinding
 import com.example.testtackunisafe.`interface`.MainApi
+import com.example.testtackunisafe.recevied_data.ReceivedData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -24,14 +24,55 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val interceptor = HttpLoggingInterceptor()
+        interceptor.level = HttpLoggingInterceptor.Level.BODY
+
+        val client = OkHttpClient.Builder()
+            .addInterceptor(interceptor)
+            .build()
+
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://dummyjson.com")
+            .baseUrl("https://dummyjson.com").client(client)
             .addConverterFactory(GsonConverterFactory.create()).build()
         val mainApi = retrofit.create(MainApi::class.java)
 
 
         binding.startBtn.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                val keyValue: String? = createTestKey(mainApi)
+
+                    runOnUiThread { //возвращаемся на ui поток
+                        val intent =
+                            Intent(this@MainActivity, SecondActivity::class.java)
+                        intent.putExtra("keyV", keyValue)
+                        startActivity(intent)
+                    }
+
+            }
+        }
+
+
+    }
+    private suspend fun createTestKey(mainApi: MainApi):String? {
+        return try {
+            val key = mainApi.createTestKey()
+            if (key.isSuccessful) { //Проверяется, успешен ли ответ от сервера (код ответа HTTP 2xx).
+                val keyData = key.body() // Если ответ успешен, получаем тело ответа (данные) и сохраняем его в переменной
+                keyData?.key
+            } else {
+                null
+            }
+        } catch (e:Exception){
+            Log.i("Exception",""+e.message)
+            "null"
+        }
+
+    }
+
+
+
+      /*  binding.startBtn.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 try {
                     val response = mainApi.createTestKey()
@@ -68,8 +109,10 @@ class MainActivity : AppCompatActivity() {
 
 
             }
-        }
-    }
+        }*/
+
+
+
 
 
     /*
@@ -90,6 +133,21 @@ class MainActivity : AppCompatActivity() {
     } else {
         // Обработка ошибки, если success = false
     }
+
+
+      val loginOccurred:ReceivedData = mainApi.getProductById(keyValue)
+                if (loginOccurred.success) { // Проверяем значение, если ключ подходит для входа, то loginOccurred будет true
+                    Log.i("loginOccurred", "true")
+                    runOnUiThread { //возвращаемся на ui поток
+                        val intent =
+                            Intent(this@MainActivity, SecondActivity::class.java)
+                        intent.putExtra("keyV", keyValue)
+                        startActivity(intent)
+                    }
+                } else {
+                    Log.i("loginOccurred", "false")
+                    // Обработка случая, когда ключ не подходит для входа
+                }
 }*/
 }
 

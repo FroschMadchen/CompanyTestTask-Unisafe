@@ -10,3 +10,8 @@ data class Shop(
     val id: Int,
     val name: String
 )
+
+data class ItemProduct(
+    val key:String,
+    val name:String
+)

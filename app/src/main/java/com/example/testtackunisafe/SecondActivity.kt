@@ -9,6 +9,7 @@ import com.example.testtackunisafe.adapter.ProductAdapter
 import com.example.testtackunisafe.adapter.Shop
 import com.example.testtackunisafe.databinding.SecondActivityBinding
 import com.example.testtackunisafe.`interface`.MainApi
+import com.example.testtackunisafe.recevied_data.ShopListConstructor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -44,9 +45,8 @@ class SecondActivity : AppCompatActivity() {
 
         val mainApi = retrofit.create(MainApi::class.java)
 
-        val products = mutableListOf<Shop>()
-        products.add(Shop("26.09.2023 13:40", 0, "Конфеты Охота"))
-        products.add(Shop("26.09.2023 13:45", 1, "Чай Гринфелд"))
+        val shoppingList = mutableListOf<ShopListConstructor>()
+
 
         adapter = ProductAdapter()
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
@@ -58,16 +58,18 @@ class SecondActivity : AppCompatActivity() {
                 try {
                 val keyValue = intent.getStringExtra("keyV")
                 if (keyValue != null) {
-                    val productsNum1Id = createShoppingList(itemProduct = ItemProduct(keyValue,"product"), mainApi)
-                    val productsNum2Id = createShoppingList(itemProduct = ItemProduct(keyValue,"product2"), mainApi)
-                    val productsNum3Id = createShoppingList(itemProduct = ItemProduct(keyValue,"product3"), mainApi)
+                    val productsNum1Id = createShoppingList(keyValue,"product", mainApi)
+                    val productsNum2Id = createShoppingList(keyValue,"product2", mainApi)
+                    val productsNum3Id = createShoppingList(keyValue,"product3", mainApi)
 
                     runOnUiThread {
-                        binding.apply {
-                            textView.setText(productsNum1Id)
-                            textView2.setText(productsNum2Id )
-                            textView3.setText(productsNum3Id )
+                        adapter.submitList(shoppingList)
+
+                        if (productsNum1Id != null) {
+                            shoppingList.add(productsNum1Id)
+                            adapter.notifyDataSetChanged()
                         }
+
 
                     }
                 }
@@ -79,12 +81,14 @@ class SecondActivity : AppCompatActivity() {
         }
     }
 
-    private suspend fun createShoppingList(itemProduct: ItemProduct, mainApi: MainApi): Int {
-        val productId = mainApi.createShoppingList(itemProduct)
+    private suspend fun createShoppingList(key:String,nameList:String, mainApi: MainApi):ShopListConstructor? {
+        val productId = mainApi.createShoppingList(key,nameList)
         if (productId.isSuccessful) {
-            return productId.body()?.list_id ?: 0
+           val shopList: ShopListConstructor? =
+               productId.body()?.list_id?.let { ShopListConstructor(it, nameList) }
+            return shopList
         } else {
-            return 0
+            return null
         }
     }
 }

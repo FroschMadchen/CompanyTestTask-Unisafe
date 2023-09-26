@@ -8,23 +8,26 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.testtackunisafe.R
 import com.example.testtackunisafe.databinding.ItemProductBinding
+import com.example.testtackunisafe.recevied_data.ShopListConstructor
 
-class ProductAdapter : ListAdapter<Shop, ProductAdapter.Holder>(Comparator()){
+class ProductAdapter : ListAdapter<ShopListConstructor, ProductAdapter.Holder>(Comparator()){
+
+
+
     class  Holder (view: View): RecyclerView.ViewHolder(view){
         private  val binding = ItemProductBinding.bind(view)
 
-        fun bind(shop: Shop)= with(binding){
+        fun bind(shop: ShopListConstructor)= with(binding){
             titleTV.text = shop.name
-            descriptionTV.text = shop.created
         }
     }
 
-    class Comparator : DiffUtil.ItemCallback<Shop>(){
-        override fun areItemsTheSame(oldItem: Shop, newItem: Shop): Boolean {
+    class Comparator : DiffUtil.ItemCallback<ShopListConstructor>(){
+        override fun areItemsTheSame(oldItem: ShopListConstructor, newItem: ShopListConstructor): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Shop, newItem: Shop): Boolean {
+        override fun areContentsTheSame(oldItem: ShopListConstructor, newItem: ShopListConstructor): Boolean {
             return oldItem == newItem
         }
 

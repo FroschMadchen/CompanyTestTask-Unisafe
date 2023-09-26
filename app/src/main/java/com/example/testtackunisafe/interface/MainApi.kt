@@ -18,33 +18,44 @@ interface MainApi {
     @Headers("Accept:text/plane")
     suspend fun createTestKey(): Response<String>
 //    https://cyberprot.ru/shopping/v1/CreateTestKey?
-//    {"key" = "#XXXXXX#"} String **********
+//    {"key" = "#XXXXXX#"} String (работает)
     @GET("Authentication")
     suspend fun authentication(@Query("key")keyValue:String):ReceivedData
 //    https://cyberprot.ru/shopping/v1/Authentication?key=92EGHS
-//    {"success":true} Boolean **********
+//    {"success":true} Boolean (работает)
 
 
-    @POST("createShoppingList") // создать список покупок
-    @Headers("Accept:text/plane")
-    suspend fun createShoppingList(@Body itemProduct: ItemProduct
+    @POST("CreateShoppingList") // создать список покупок
+    //@Headers("Accept:text/plane")
+    suspend fun createShoppingList(@Query("key")key: String,
+                                   @Query("name")name:String
     ): Response<ReceivedData>
     //https://cyberprot.ru/shopping/v1/CreateShoppingList?key=92EGHS&name=Shopping%20with%20bestie
 //    {success":true,"list_id":4}. list_id - id списка, созданный на сервере, по этому id
-//     можно взаимодествовать со списком.
+//     можно взаимодествовать со списком. (работает)
 
-    @DELETE("RemoveShoppingList?list_{id}")  // удалить список покупок
-    suspend fun removeShoppingList(@Path("id")id:Int):ReceivedData
+    @DELETE("RemoveShoppingList")  // удалить список покупок
+    suspend fun removeShoppingList(@Query("list_id")list_id:Int):Response<ReceivedData>
+//  https://cyberprot.ru/shopping/v1/RemoveShoppingList?list_id=2
+//  Ответ сервера: {"success":true,"new_value":false}
 
-    @POST("AddToShoppingList?id={id}&value=tools&n=3") // добавить товра в список покупок
-    suspend fun addToShoppingList(@Path("id")id:String)
-//     https://cyberprot.ru/shopping/v1/AddToShoppingList?id=4&value=tools&n=3
+
+
+    @POST("AddToShoppingList?id={id}&value={tools}&n={3}") // (дороботвать) добавить товра в список покупок
+    suspend fun addToShoppingList(@Path("id")id:String,
+                                  @Path("tools")tools:String,
+                                  @Path("n")n:Int
+    ):Response<ReceivedData>
+//     https://cyberprot.ru/shopping/v1/AddToShoppingList?id=4&value=tools&n=3 (id :спсика, value : (имя продукта), n : кол-во
 //     Ответ сервера: {"success":true,"item_id":8}, где item_id - id предмета внутри списка покупок.
 //
-    @DELETE("RemoveShoppingList")
+    @DELETE("CrossItOff") // Удалить товра из списка покупок
     suspend fun crossItOff(@Query ("list_id")list_id:Int):Response<ReceivedData>
-//    https://cyberprot.ru/shopping/v1/RemoveShoppingList?list_id=2
+//    https://cyberprot.ru/shopping/v1/CrossItOff?list_id=2
 //    Ответ сервера: {"success":true,"new_value":false}
+
+
+
 
     @GET("GetAllMyShopLists")
     suspend fun getAllMyShopLists(@Query("key") key: String):Response<Product>

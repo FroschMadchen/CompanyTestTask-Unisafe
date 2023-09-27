@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://cyberprot.ru/shopping/v1/")
             .client(client)
-            .addConverterFactory(ScalarsConverterFactory.create()) // Add ScalarsConverterFactory here
+            .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 

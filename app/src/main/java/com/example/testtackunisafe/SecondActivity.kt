@@ -58,14 +58,13 @@ class SecondActivity : AppCompatActivity() {
                 try {
                 val keyValue = intent.getStringExtra("keyV")
                 if (keyValue != null) {
-                    val productsNum1Id = createShoppingList(keyValue,"product", mainApi)
-                    val productsNum2Id = createShoppingList(keyValue,"product2", mainApi)
+                    val productsNum1Id = createShoppingList(keyValue,"product", mainApi) // создаю список покупок                    val productsNum2Id = createShoppingList(keyValue,"product2", mainApi)
                     val productsNum3Id = createShoppingList(keyValue,"product3", mainApi)
 
                     runOnUiThread {
                         adapter.submitList(shoppingList)
 
-                        if (productsNum1Id != null) {
+                        if (productsNum1Id != null) { // отображаю в recyclerview
                             shoppingList.add(productsNum1Id)
                             adapter.notifyDataSetChanged()
                         }

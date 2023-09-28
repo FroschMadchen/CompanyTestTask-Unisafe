@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.example.testtackunisafe"
-    compileSdk = 33
+    compileSdk = 34
 
     buildFeatures {
         viewBinding = true
@@ -13,9 +13,10 @@ android {
     }
 
     defaultConfig {
+        viewBinding.isEnabled = true
         applicationId = "com.example.testtackunisafe"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -43,26 +44,24 @@ android {
 
 dependencies {
 
-        val nav_version = "2.7.3"
+    val nav_version = "2.7.3"
 
-        // Java language implementation
-        implementation("androidx.navigation:navigation-fragment:$nav_version")
-        implementation("androidx.navigation:navigation-ui:$nav_version")
+    // Java language implementation
+    implementation("androidx.navigation:navigation-fragment:$nav_version")
+    implementation("androidx.navigation:navigation-ui:$nav_version")
 
-        // Kotlin
-        implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
-        implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
+    // Kotlin
+    implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
+    implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
 
-        // Feature module Support
-        implementation("androidx.navigation:navigation-dynamic-features-fragment:$nav_version")
+    // Feature module Support
+    implementation("androidx.navigation:navigation-dynamic-features-fragment:$nav_version")
 
-        // Testing Navigation
-        androidTestImplementation("androidx.navigation:navigation-testing:$nav_version")
+    // Testing Navigation
+    androidTestImplementation("androidx.navigation:navigation-testing:$nav_version")
 
-        // Jetpack Compose Integration
-        implementation("androidx.navigation:navigation-compose:$nav_version")
-
-
+    // Jetpack Compose Integration
+    implementation("androidx.navigation:navigation-compose:$nav_version")
 
     //retrofit
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
@@ -72,6 +71,8 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.7.2")
     implementation ("com.squareup.retrofit2:converter-scalars:2.9.0")
 
+    implementation ("com.android.support:appcompat-v7:28.0.0")
+    
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")

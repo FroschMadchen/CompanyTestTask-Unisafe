@@ -7,7 +7,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".SecondActivity"
     android:padding="20dp"
-    android:background="@color/bbb">
+    android:background="@color/barbi">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

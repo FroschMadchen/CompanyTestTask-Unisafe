@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/entrance"
-        android:name="com.example.testtackunisafe.screens.Entrance"
+        android:name="com.example.testtackunisafe.screens.EntranceFragment"
         android:label="fragment_entrance"
         tools:layout="@layout/fragment_entrance" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/createListsProducts"
-        android:name="com.example.testtackunisafe.screens.CreateListsProducts"
+        android:name="com.example.testtackunisafe.screens.CreateListsProductsFragment"
         android:label="fragment_create_lists_products"
         tools:layout="@layout/fragment_create_lists_products" >
         <action
@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/additionProduct"
-        android:name="com.example.testtackunisafe.screens.AdditionProduct"
+        android:name="com.example.testtackunisafe.screens.AdditionProductFragment"
         android:label="fragment_addition_product"
         tools:layout="@layout/fragment_addition_product" >
         <action

@@ -8,10 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.navigation.NavController
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.example.testtackunisafe.R
 import com.example.testtackunisafe.RetrofitClient
 import com.example.testtackunisafe.databinding.FragmentEntranceBinding
 import com.example.testtackunisafe.`interface`.MainApi
+import com.example.testtackunisafe.utils.APP_ACTIVITY
+import com.example.testtackunisafe.utils.KEY_VALUE
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,25 +25,38 @@ class EntranceFragment : Fragment() {
     private var _binding: FragmentEntranceBinding? = null
     private val mBinding get() = _binding!!
     lateinit var navController: NavController
-    lateinit var createListsProductsFragment: CreateListsProductsFragment
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentEntranceBinding.inflate(layoutInflater, container, false)
 
-        navController.navigate(R.id.action_entrance_to_createListsProducts)
+        navController = findNavController()
         val mainApi = RetrofitClient.mainApi
 
         _binding!!.startBtn.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 val keyValue = createTestKey(mainApi)
                 Log.i("Key value", "" + keyValue)
+                KEY_VALUE = keyValue
                 val successfulLogin: Boolean = authentication(mainApi, keyValue)
                 Log.i("SuccessfulLogin", "Successful login: " + successfulLogin)
-                requireActivity().runOnUiThread {
+                APP_ACTIVITY.runOnUiThread {
+
+                 /*   val createListsProductsFragment = navController.currentDestination?.let { destination ->
+                        if (destination.id == R.id.createListsProducts) {
+                            // Получаем существующий экземпляр фрагмента, если он уже отображается.
+                            childFragmentManager.findFragmentById(destination.id) as? CreateListsProductsFragment
+                        } else {
+                            null
+                        }
+                    } ?: CreateListsProductsFragment() // Если фрагмент ещё не создан, создаем новый.*/
+             val createListsProductsFragment = CreateListsProductsFragment() // новый экзмепляр фрагмент
                     val bundle = Bundle()
-                    bundle.putString("key", keyValue)
+                    bundle.putString("keyValue", keyValue)
+                    Log.i("KeyValue","keyValue $keyValue")
                     createListsProductsFragment.arguments = bundle
                     navController.navigate(R.id.action_entrance_to_createListsProducts)
                 }

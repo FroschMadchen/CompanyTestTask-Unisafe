@@ -16,6 +16,8 @@ class AdditionProductFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_addition_product, container, false)
+
+
     }
 
 }

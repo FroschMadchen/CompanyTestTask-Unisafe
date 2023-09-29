@@ -13,20 +13,34 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin">
 
-    <TextView
-        android:id="@+id/titleTV"
-        android:lines="1"
-        tools:text = "Name note"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/barbi"
-        android:textStyle="bold"
-        android:textSize="@dimen/text_size_large"
-        android:gravity="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-         />
+        <TextView
+            android:id="@+id/titleList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin"
+            android:layout_marginBottom="@dimen/margin"
+            android:gravity="left"
+            android:layout_marginStart="40dp"
+            android:lines="1"
+            android:textColor="@color/barbi"
+            android:textSize="@dimen/text_size_large"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Name note" />
+
+        <ImageView
+            android:id="@+id/deleteImageView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.950"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_delete" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

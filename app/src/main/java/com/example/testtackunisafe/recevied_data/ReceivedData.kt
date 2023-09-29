@@ -1,5 +1,7 @@
 package com.example.testtackunisafe.recevied_data
 
+import android.widget.ImageView
+
 data class ReceivedData(
     val key:String,
     val success: Boolean,
@@ -14,7 +16,7 @@ data class Product(
 )
 data class ShopListConstructor(
     val id: Int,
-    val name: String
+    val name: String,
 )
 
 

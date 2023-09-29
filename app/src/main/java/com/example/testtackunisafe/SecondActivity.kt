@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.testtackunisafe.adapter.ItemProduct
 import com.example.testtackunisafe.adapter.ProductAdapter
-import com.example.testtackunisafe.adapter.Shop
 import com.example.testtackunisafe.databinding.SecondActivityBinding
 import com.example.testtackunisafe.`interface`.MainApi
 import com.example.testtackunisafe.recevied_data.ShopListConstructor

@@ -1,11 +1,8 @@
 package com.example.testtackunisafe.`interface`
 
-import com.example.testtackunisafe.adapter.ItemProduct
-import com.example.testtackunisafe.adapter.Product
-import com.example.testtackunisafe.adapter.Shop
+
 import com.example.testtackunisafe.recevied_data.ReceivedData
 import retrofit2.Response
-import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Headers
@@ -28,8 +25,7 @@ interface MainApi {
     @POST("CreateShoppingList") // создать список покупок
     //@Headers("Accept:text/plane")
     suspend fun createShoppingList(@Query("key")key: String,
-                                   @Query("name")name:String
-    ): Response<ReceivedData>
+                                   @Query("name")name:String): Response<ReceivedData>
     //https://cyberprot.ru/shopping/v1/CreateShoppingList?key=92EGHS&name=Shopping%20with%20bestie
 //    {success":true,"list_id":4}. list_id - id списка, созданный на сервере, по этому id
 //     можно взаимодествовать со списком. (работает)
@@ -58,12 +54,12 @@ interface MainApi {
 
 
     @GET("GetAllMyShopLists")
-    suspend fun getAllMyShopLists(@Query("key") key: String):Response<Product>
+    suspend fun getAllMyShopLists(@Query("key") key: String):Response<ReceivedData>
 //    https://cyberprot.ru/shopping/v1/GetAllMyShopLists?key=92EGHS
 //    {"shop_list":[{"created":"2023-08-28 06:35:44","name":"Test1","id":2},...,"success":true}
 
     @GET("GetShoppingList")
-    suspend fun getSoppingList(@Query("key")key:String):Response<Product>
+    suspend fun getSoppingList(@Query("key")key:String):Response<ReceivedData>
 //    https://cyberprot.ru/shopping/v1/GetShoppingList?list_id=4
 //    {"success":true,"item_list":[{"created":"2","name":"steel armor","id":3},
 //  {"created":"1","name":"huge hammer","id":4},{"created":"1","name":"sharp spear","id":5},
@@ -72,18 +68,3 @@ interface MainApi {
 
 }
 
-
-/*
-interface MainApi {
-    @POST("/CreateTestKey")
-    suspend fun createTestKey(): Response<ReceivedData>
-
-    @GET("/Authentication")
-    suspend fun getProductById(@Query("key") keyValue: String): ReceivedData
-
-    @POST("/CreateShoppingList")
-    suspend fun createShoppingList(
-        @Query("key") key: String,
-        @Query("name") name: String
-    ): MainData
-}*/

@@ -33,23 +33,6 @@ class MainActivity1 : AppCompatActivity() {
         setSupportActionBar(mToolbar)
         title = getString(R.string.name_app_custom)
         APP_ACTIVITY = this
-
-        val interceptor = HttpLoggingInterceptor()
-        interceptor.level = HttpLoggingInterceptor.Level.BODY
-
-        val client = OkHttpClient.Builder()
-            .addInterceptor(interceptor)
-            .build()
-
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://cyberprot.ru/shopping/v1/")
-            .client(client)
-            .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val mainApi = retrofit.create(MainApi::class.java)
     }
 
     override fun onDestroy() {

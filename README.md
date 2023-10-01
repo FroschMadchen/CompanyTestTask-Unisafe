@@ -1,5 +1,5 @@
-# TestTackHttp
-TestTackUniSafe
+# Server-Interaction
+This is the application in which interaction with the server occurs. Shopping list, creation and deletion on the server. Used MVVM, Retrofit, OkHttp,RecyclerView
 
 <p align="center">
   <a href="https://www.edisonlee55.com"><img src="kita-ikuyo-rap.webp" alt="Banner"></a>

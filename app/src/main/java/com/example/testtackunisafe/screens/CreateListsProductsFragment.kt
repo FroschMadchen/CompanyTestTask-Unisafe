@@ -11,14 +11,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.testtackunisafe.R
 import com.example.testtackunisafe.RetrofitClient
-import com.example.testtackunisafe.adapter.ProductAdapter
-import com.example.testtackunisafe.databinding.FragmentAdditionProductBinding
+import com.example.testtackunisafe.adapter.ActionListener
+import com.example.testtackunisafe.adapter.ShopListAdapter
 import com.example.testtackunisafe.databinding.FragmentCreateListsProductsBinding
 import com.example.testtackunisafe.`interface`.MainApi
 import com.example.testtackunisafe.recevied_data.ShopListConstructor
 import com.example.testtackunisafe.utils.APP_ACTIVITY
 import com.example.testtackunisafe.utils.KEY_VALUE
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,7 +29,7 @@ class CreateListsProductsFragment : Fragment() {
     private val mBinding get() = _binding!!
     private lateinit var navController: NavController
 
-    private lateinit var adapter:ProductAdapter
+    private lateinit var adapter:ShopListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,51 +39,53 @@ class CreateListsProductsFragment : Fragment() {
 
         navController = findNavController()
 
-        val shoppingList = mutableListOf<ShopListConstructor>()
-        shoppingList.add(ShopListConstructor(1,"LIST1"))
-        shoppingList.add(ShopListConstructor(4,"LIST12"))
+        val shoppingList = ArrayList<ShopListConstructor>()
+        shoppingList.add(ShopListConstructor(0,"NAME"))
 
-        adapter = ProductAdapter()
+        adapter = ShopListAdapter(object :ActionListener{
+            override fun deleteList(shopLists: ShopListConstructor) {
+                shoppingList.removeAt(id)
+
+
+            }
+
+            override fun openList(shopLists: ShopListConstructor) {
+
+                navController.navigate(R.id.action_createListsProducts_to_additionProduct)
+            }
+        },shoppingList)
         _binding?.recyclerViewProduct?.layoutManager = LinearLayoutManager(APP_ACTIVITY)
         _binding?.recyclerViewProduct?.adapter = adapter
 
         val mainApi = RetrofitClient.mainApi
 
+
+
         _binding?.btnAddProduct1?.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
-                try {
-                    val dataKey = arguments?.getString("keyValue")
-                    Log.i("GetKey","Get Key in Create Lists")
-                    Log.i("DataKey","data key: $dataKey")
+//                    val dataKey = arguments?.getString("keyValue")
+//                    Log.i("DataKey","data key: $dataKey")
 //                    if (dataKey != null){
 
-                        val productsNum1Id = createShoppingList(KEY_VALUE,"productEE", mainApi) // создаю список покупок
+                        val item = createShoppingList(KEY_VALUE,"productEE", mainApi) // создаю список покупок
                         requireActivity().runOnUiThread{
-                            adapter.submitList(shoppingList)
+
                             Log.i("CreateNewList","createShoppingList()")
-                            if (productsNum1Id != null){
-                                shoppingList.add(productsNum1Id)
+                            if (item != null){
+                                shoppingList.add(item)
                                 adapter.notifyDataSetChanged()
                                 Log.i("Update RecyclerView","get item in shoppingList")
                             }
                         }
-//                    }
-                }catch (e:Exception){
-                    Log.i("Exception", ""+e.message)
                 }
 
             }
 
-        }
 
-        adapter.onDeleteItemListener = object : ProductAdapter.OnDeleteItemListener {
-            override fun onDeleteItem(position: Int) {
-                shoppingList.removeAt(position)
-                adapter.notifyItemRemoved(position)// UPDATE RecyclerView
-            }
-        }
         return mBinding.root
     }
+
+
     private suspend fun createShoppingList(dataKey: String, nameList: String, mainApi: MainApi): ShopListConstructor? {
         val productId = mainApi.createShoppingList(dataKey,nameList)
         if (productId.isSuccessful) {
@@ -95,6 +96,17 @@ class CreateListsProductsFragment : Fragment() {
             return null
         }
     }
-}
+
+    private fun addShoppingList(item:ShopListConstructor,shoppingList: List<ShopListConstructor>){
+       /* adapter.submitList(shoppingList)
+        Log.i("CreateNewList","createShoppingList()")
+            shoppingList.add(item)
+            adapter.notifyDataSetChanged()
+            Log.i("Update RecyclerView","get item in shoppingList")*/
+        }
+
+    }
+
+
 
 

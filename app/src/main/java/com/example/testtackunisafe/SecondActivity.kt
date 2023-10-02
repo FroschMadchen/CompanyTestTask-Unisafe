@@ -46,10 +46,10 @@ class SecondActivity : AppCompatActivity() {
         val shoppingList = mutableListOf<ShopListConstructor>()
 
 
-        adapter = ProductAdapter()
+     /*   adapter = ProductAdapter()
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = adapter
-
+*/
 
         binding.createBtn.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {

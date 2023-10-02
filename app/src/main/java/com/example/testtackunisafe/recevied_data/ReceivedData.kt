@@ -14,10 +14,8 @@ data class Product(
     val id: Int,
     val name: String
 )
-data class ShopListConstructor(
-    val id: Int,
-    val name: String,
-)
+
+
 
 
 

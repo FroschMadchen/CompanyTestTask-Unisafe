@@ -62,7 +62,6 @@ class EntranceFragment : Fragment() {
                 }
             }
         }
-        // Inflate the layout for this fragment
         return mBinding.root
     }
     private suspend fun authentication(mainApi: MainApi, keyValue: String): Boolean {
@@ -72,11 +71,11 @@ class EntranceFragment : Fragment() {
     private suspend fun createTestKey(mainApi: MainApi): String {
         val key = mainApi.createTestKey()
         return if (key.isSuccessful) {
-            val keyData = key.body().toString() // Get the response body as a string
+            val keyData = key.body().toString()
             Log.i("String value", (keyData ?: "key").toString())
             return keyData
         } else {
-            "null"
+            "missing key"
         }
     }
 }

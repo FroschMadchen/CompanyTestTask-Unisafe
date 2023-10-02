@@ -10,32 +10,18 @@ import com.example.testtackunisafe.R
 import com.example.testtackunisafe.databinding.ItemProductBinding
 import com.example.testtackunisafe.recevied_data.ShopListConstructor
 
-class ProductAdapter : ListAdapter<ShopListConstructor, ProductAdapter.Holder>(Comparator()){
+class ProductAdapter(private val shoppingList: MutableList<ShopListConstructor>)
+    : ListAdapter<ShopListConstructor, ProductAdapter.Holder>(Comparator()){
 
-
-
-    var onDeleteItemListener: OnDeleteItemListener? = null//gg
-    // Объявляем интерфейс для обработки нажатия и удаления элемента
-    interface OnDeleteItemListener {
-        fun onDeleteItem(position: Int)
-    }
 
     class  Holder (view: View): RecyclerView.ViewHolder(view){
         private  val binding = ItemProductBinding.bind(view)
-        var onDeleteItemListener: OnDeleteItemListener? = null  // Слушатель для обработки нажатия и удаления элемента
-        fun bind(shoppingList: ShopListConstructor)= with(binding){
+
+        fun bind(shoppingList: ShopListConstructor)= with(binding) {
             titleList.text = shoppingList.name
-            deleteImageView.setImageResource(R.drawable.ic_delete) // gg
-
-            // Добавляем обработчик нажатия на deleteImageView
-            deleteImageView.setOnClickListener {
-                val position = adapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    onDeleteItemListener?.onDeleteItem(position)
-                }
-            }
-
         }
+
+
     }
     class Comparator : DiffUtil.ItemCallback<ShopListConstructor>(){
         override fun areItemsTheSame(oldItem: ShopListConstructor, newItem: ShopListConstructor): Boolean {
@@ -54,4 +40,7 @@ class ProductAdapter : ListAdapter<ShopListConstructor, ProductAdapter.Holder>(C
         holder.bind(getItem(position))
 
     }
+
+
+
 }

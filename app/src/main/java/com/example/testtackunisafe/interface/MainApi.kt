@@ -30,9 +30,10 @@ interface MainApi {
 //    {success":true,"list_id":4}. list_id - id списка, созданный на сервере, по этому id
 //     можно взаимодествовать со списком. (работает)
 
-    @DELETE("RemoveShoppingList")  // удалить список покупок
+    @POST("RemoveShoppingList")
+    @Headers("Accept:text/plane")// удалить список покупок
     suspend fun removeShoppingList(@Query("list_id")list_id:Int):Response<ReceivedData>
-//  https://cyberprot.ru/shopping/v1/RemoveShoppingList?list_id=2
+//  https://cyberprot.ru/shopping/v1/RemoveShoppingList?list_id=2  https://cyberprot.ru/shopping/v1/RemoveShoppingList?list_id=498
 //  Ответ сервера: {"success":true,"new_value":false}
 
 

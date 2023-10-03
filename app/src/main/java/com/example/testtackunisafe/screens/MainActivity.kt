@@ -1,31 +1,23 @@
 package com.example.testtackunisafe.screens
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.testtackunisafe.R
-import com.example.testtackunisafe.databinding.ActivityMainBinding
-import com.example.testtackunisafe.databinding.MainActivity1Binding
-import com.example.testtackunisafe.`interface`.MainApi
+import com.example.testtackunisafe.databinding.MainActivityBinding
 import com.example.testtackunisafe.utils.APP_ACTIVITY
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.converter.scalars.ScalarsConverterFactory
 
-class MainActivity1 : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
     lateinit var mToolbar: Toolbar
     lateinit var mNavConverter: NavController
-    private var _binding: MainActivity1Binding? = null
+    private var _binding: MainActivityBinding? = null
     val mBinding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = MainActivity1Binding.inflate(layoutInflater)
+        _binding = MainActivityBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
 
         mToolbar = mBinding.toolbar

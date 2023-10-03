@@ -5,4 +5,6 @@
     <string name="name_app_custom">Shopping list</string>
     <string name="greeting_text">Начать создавать списки!</string>
     <string name="text_add_produt_in_list">Сохранить продукт в списке</string>
+    <string name="name_list">Название списка</string>
+    <string name="create">Создать</string>
 </resources>

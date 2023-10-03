@@ -4,11 +4,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.testtackunisafe.R
 import com.example.testtackunisafe.databinding.ItemProductBinding
 import com.example.testtackunisafe.recevied_data.ShopListConstructor
 
 interface ActionListener{
-    fun deleteList(shopLists:ShopListConstructor)
+    fun deleteList(listId: Int)
     fun openList(shopLists: ShopListConstructor)
 
 }
@@ -39,8 +40,8 @@ class ShopListAdapter(
     override fun onBindViewHolder(holder: ShopItemViewHolder, position: Int) {
         val shopList = shopLists[position]
         with(holder.binding) {
-            btnDelete.tag = shopList
-            holder.itemView.tag= shopList
+            btnDelete.tag = shopList.listId
+            holder.itemView.tag= shopList.listId
 
             titleList.text = shopList.name
         }
@@ -50,7 +51,17 @@ class ShopListAdapter(
     }
     class ShopItemViewHolder(val binding: ItemProductBinding) :
         RecyclerView.ViewHolder(binding.root)
-    override fun onClick(p0: View?) {
-        p0?.tag as ShopListConstructor
+    override fun onClick(view: View?) {
+        val listId = view?.tag as Int
+        when (view.id) {
+            R.id.btnDelete -> {
+                // Обработка клика на кнопке удаления
+                actionListener.deleteList(listId)
+            }
+            else -> {
+                // Обработка клика на элементе списка
+                actionListener.openList(shopLists[listId])
+            }
+        }
     }
 }

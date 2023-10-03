@@ -8,23 +8,13 @@
 
     <EditText
         android:id="@+id/nameList"
-        android:layout_width="260dp"
-        android:layout_height="50dp"
+        android:layout_width="331dp"
+        android:layout_height="53dp"
         android:layout_marginTop="@dimen/margin"
         android:hint="@string/name_list"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.150"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnCreateList"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_margin="@dimen/margin"
-        android:layout_marginTop="@dimen/margin"
-        android:text="@string/create"
-        app:layout_constraintStart_toEndOf="@id/nameList"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

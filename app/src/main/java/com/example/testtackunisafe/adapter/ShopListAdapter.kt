@@ -10,7 +10,7 @@ import com.example.testtackunisafe.recevied_data.ShopListConstructor
 
 interface ActionListener{
     fun deleteList(listId: Int)
-    fun openList(shopLists: ShopListConstructor)
+    fun openList(listId: Int)
 
 }
 class ShopListAdapter(
@@ -60,7 +60,7 @@ class ShopListAdapter(
             }
             else -> {
                 // Обработка клика на элементе списка
-                actionListener.openList(shopLists[listId])
+                actionListener.openList(listId)
             }
         }
     }

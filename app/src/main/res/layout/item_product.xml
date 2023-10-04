@@ -22,7 +22,7 @@
             android:gravity="left"
             android:layout_marginStart="40dp"
             android:lines="1"
-            android:textColor="@color/barbi"
+            android:textColor="@color/btn_barbi"
             android:textSize="@dimen/text_size_large"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"

@@ -1,6 +1,5 @@
 package com.example.testtackunisafe.screens
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
@@ -8,8 +7,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,7 +19,7 @@ import com.example.testtackunisafe.RetrofitClient.mainApi
 import com.example.testtackunisafe.adapter.ActionListener
 import com.example.testtackunisafe.adapter.ShopListAdapter
 import com.example.testtackunisafe.databinding.DialogAddListBinding
-import com.example.testtackunisafe.databinding.FragmentCreateListsProductsBinding
+import com.example.testtackunisafe.databinding.FragmentCreateListsBinding
 import com.example.testtackunisafe.`interface`.MainApi
 import com.example.testtackunisafe.recevied_data.ShopListConstructor
 import com.example.testtackunisafe.utils.APP_ACTIVITY
@@ -29,12 +29,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class CreateListsProductsFragment : Fragment() {
+class CreateListsFragment : Fragment() {
 
-    private var _binding: FragmentCreateListsProductsBinding? = null
+    private var _binding: FragmentCreateListsBinding? = null
     private lateinit var binding: DialogAddListBinding
     private val mBinding get() = _binding!!
     private lateinit var navController: NavController
+    private lateinit var vm: CreateListsVM
 
     private lateinit var adapter: ShopListAdapter
     private val shoppingList = ArrayList<ShopListConstructor>() // список списков
@@ -43,13 +44,15 @@ class CreateListsProductsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentCreateListsProductsBinding.inflate(
+        _binding = FragmentCreateListsBinding.inflate(
             layoutInflater,
             container,
             false
         )
         navController = findNavController()
         val mainApi = RetrofitClient.mainApi
+        vm = ViewModelProvider(this).get(CreateListsVM::class.java)
+
 
         adapter = ShopListAdapter(object : ActionListener {  // реализация интерфейса
             override fun deleteList(listId: Int) { //  удаления
@@ -80,11 +83,17 @@ class CreateListsProductsFragment : Fragment() {
             showAddListDialog()
         }
 
+        vm.item.observe(APP_ACTIVITY, Observer {
+            if (it != null) {
+                addItemInShoppingList(it)
+            }
+        })
+
         return mBinding.root
     }
 
 
-    private suspend fun createShoppingList( //создание списка
+  /*  private suspend fun createShoppingList( //создание списка
         dataKey: String,
         nameList: String,
         mainApi: MainApi
@@ -96,8 +105,8 @@ class CreateListsProductsFragment : Fragment() {
             return shopList
         } else {
             return null
-        }
-    }
+        } //это тест
+    }*/
 
     private suspend fun removeShoppingList(listId: Int): Boolean? { // удаление списка
         val isSuccessRemove = mainApi.removeShoppingList(listId)
@@ -116,7 +125,7 @@ class CreateListsProductsFragment : Fragment() {
 
     }
 
-    fun showAddListDialog() { // диалоговое окно, создание списка
+    /*fun showAddListDialog() { // диалоговое окно, создание списка
         binding = DialogAddListBinding.inflate(LayoutInflater.from(APP_ACTIVITY))
         val dialog = AlertDialog.Builder(APP_ACTIVITY)
             .setView(binding.root)
@@ -134,6 +143,23 @@ class CreateListsProductsFragment : Fragment() {
                         }
                     }
                 }
+            }
+            .setNegativeButton("Отмена", null)
+            .create()
+
+        dialog.show() //это тест
+    }*/
+
+    fun showAddListDialog() { // диалоговое окно, создание списка
+        binding = DialogAddListBinding.inflate(LayoutInflater.from(APP_ACTIVITY))
+        val dialog = AlertDialog.Builder(APP_ACTIVITY)
+            .setView(binding.root)
+            .setTitle("Добавить список")
+            .setPositiveButton("Создать") { _, _ ->
+                val listName = binding.nameList.text.toString()
+                vm.sendNameList(listName)
+                   // addItemInShoppingList(item)
+
             }
             .setNegativeButton("Отмена", null)
             .create()

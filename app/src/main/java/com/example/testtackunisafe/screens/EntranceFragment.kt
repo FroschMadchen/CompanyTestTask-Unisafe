@@ -6,9 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.navigation.NavController
-import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.testtackunisafe.R
 import com.example.testtackunisafe.RetrofitClient
@@ -53,7 +51,7 @@ class EntranceFragment : Fragment() {
                             null
                         }
                     } ?: CreateListsProductsFragment() // Если фрагмент ещё не создан, создаем новый.*/
-             val createListsProductsFragment = CreateListsProductsFragment() // новый экзмепляр фрагмент
+             val createListsProductsFragment = CreateListsFragment() // новый экзмепляр фрагмент
                     val bundle = Bundle()
                     bundle.putString("keyValue", keyValue)
                     Log.i("KeyValue","keyValue $keyValue")

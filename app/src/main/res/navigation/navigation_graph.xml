@@ -16,9 +16,9 @@
     </fragment>
     <fragment
         android:id="@+id/createListsProducts"
-        android:name="com.example.testtackunisafe.screens.CreateListsProductsFragment"
+        android:name="com.example.testtackunisafe.screens.CreateListsFragment"
         android:label="fragment_create_lists_products"
-        tools:layout="@layout/fragment_create_lists_products" >
+        tools:layout="@layout/fragment_create_lists" >
         <action
             android:id="@+id/action_createListsProducts_to_additionProduct"
             app:destination="@id/additionProduct" />

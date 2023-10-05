@@ -1,6 +1,6 @@
-package com.example.testtackunisafe
+package com.example.testtackunisafe.domain
 
-import com.example.testtackunisafe.`interface`.MainApi
+import com.example.testtackunisafe.domain.`interface`.MainApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

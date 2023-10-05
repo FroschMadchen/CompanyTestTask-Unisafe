@@ -1,15 +1,13 @@
-package com.example.testtackunisafe.screens
+package com.example.testtackunisafe.presentation.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.testtackunisafe.RetrofitClient
-import com.example.testtackunisafe.`interface`.MainApi
-import com.example.testtackunisafe.recevied_data.ShopListConstructor
-import com.example.testtackunisafe.utils.KEY_VALUE
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import com.example.testtackunisafe.domain.RetrofitClient
+import com.example.testtackunisafe.domain.`interface`.MainApi
+import com.example.testtackunisafe.domain.recevied_data.ShopListConstructor
+import com.example.testtackunisafe.data.utils.KEY_VALUE
 import kotlinx.coroutines.launch
 
 class CreateListsVM:ViewModel() {

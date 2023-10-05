@@ -1,4 +1,4 @@
-package com.example.testtackunisafe.adapter
+package com.example.testtackunisafe.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.testtackunisafe.R
 import com.example.testtackunisafe.databinding.ItemProductBinding
-import com.example.testtackunisafe.recevied_data.ShopListConstructor
+import com.example.testtackunisafe.domain.recevied_data.ShopListConstructor
 
 interface ActionListener{
     fun deleteList(listId: Int)
@@ -14,7 +14,7 @@ interface ActionListener{
 
 }
 class ShopListAdapter(
-    private val actionListener: com.example.testtackunisafe.adapter.ActionListener,
+    private val actionListener: ActionListener,
     private val shopLists: List<ShopListConstructor>
     )
     : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>(),View.OnClickListener {

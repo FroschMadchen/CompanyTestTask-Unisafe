@@ -1,4 +1,4 @@
-package com.example.testtackunisafe.screens
+package com.example.testtackunisafe.presentation.screens
 
 import android.os.Bundle
 import android.util.Log
@@ -9,11 +9,11 @@ import android.view.ViewGroup
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.testtackunisafe.R
-import com.example.testtackunisafe.RetrofitClient
+import com.example.testtackunisafe.domain.RetrofitClient
 import com.example.testtackunisafe.databinding.FragmentEntranceBinding
-import com.example.testtackunisafe.`interface`.MainApi
-import com.example.testtackunisafe.utils.APP_ACTIVITY
-import com.example.testtackunisafe.utils.KEY_VALUE
+import com.example.testtackunisafe.domain.`interface`.MainApi
+import com.example.testtackunisafe.data.utils.APP_ACTIVITY
+import com.example.testtackunisafe.data.utils.KEY_VALUE
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

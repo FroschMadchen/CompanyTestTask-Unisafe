@@ -1,4 +1,4 @@
-package com.example.testtackunisafe.screens
+package com.example.testtackunisafe.presentation.screens
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -7,7 +7,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.testtackunisafe.R
 import com.example.testtackunisafe.databinding.MainActivityBinding
-import com.example.testtackunisafe.utils.APP_ACTIVITY
+import com.example.testtackunisafe.data.utils.APP_ACTIVITY
 
 class MainActivity : AppCompatActivity() {
     lateinit var mToolbar: Toolbar

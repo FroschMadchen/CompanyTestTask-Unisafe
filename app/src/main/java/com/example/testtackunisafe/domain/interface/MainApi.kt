@@ -1,7 +1,7 @@
-package com.example.testtackunisafe.`interface`
+package com.example.testtackunisafe.domain.`interface`
 
 
-import com.example.testtackunisafe.recevied_data.ReceivedData
+import com.example.testtackunisafe.domain.recevied_data.ReceivedData
 import retrofit2.Response
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -17,7 +17,7 @@ interface MainApi {
 //    https://cyberprot.ru/shopping/v1/CreateTestKey?
 //    {"key" = "#XXXXXX#"} String (работает)
     @GET("Authentication")
-    suspend fun authentication(@Query("key")keyValue:String):ReceivedData
+    suspend fun authentication(@Query("key")keyValue:String): ReceivedData
 //    https://cyberprot.ru/shopping/v1/Authentication?key=92EGHS
 //    {"success":true} Boolean (работает)
 

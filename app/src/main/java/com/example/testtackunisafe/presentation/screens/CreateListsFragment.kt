@@ -1,4 +1,4 @@
-package com.example.testtackunisafe.screens
+package com.example.testtackunisafe.presentation.screens
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -9,21 +9,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.testtackunisafe.R
-import com.example.testtackunisafe.RetrofitClient
-import com.example.testtackunisafe.RetrofitClient.mainApi
-import com.example.testtackunisafe.adapter.ActionListener
-import com.example.testtackunisafe.adapter.ShopListAdapter
+import com.example.testtackunisafe.domain.RetrofitClient
+import com.example.testtackunisafe.domain.RetrofitClient.mainApi
+import com.example.testtackunisafe.presentation.adapter.ActionListener
+import com.example.testtackunisafe.presentation.adapter.ShopListAdapter
 import com.example.testtackunisafe.databinding.DialogAddListBinding
 import com.example.testtackunisafe.databinding.FragmentCreateListsBinding
-import com.example.testtackunisafe.`interface`.MainApi
-import com.example.testtackunisafe.recevied_data.ShopListConstructor
-import com.example.testtackunisafe.utils.APP_ACTIVITY
-import com.example.testtackunisafe.utils.KEY_VALUE
+import com.example.testtackunisafe.domain.recevied_data.ShopListConstructor
+import com.example.testtackunisafe.presentation.viewmodel.CreateListsVM
+import com.example.testtackunisafe.data.utils.APP_ACTIVITY
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -93,21 +91,6 @@ class CreateListsFragment : Fragment() {
     }
 
 
-  /*  private suspend fun createShoppingList( //создание списка
-        dataKey: String,
-        nameList: String,
-        mainApi: MainApi
-    ): ShopListConstructor? {
-        val productId = mainApi.createShoppingList(dataKey, nameList)
-        if (productId.isSuccessful) {
-            val shopList: ShopListConstructor? =
-                productId.body()?.list_id?.let { ShopListConstructor(it, nameList) }
-            return shopList
-        } else {
-            return null
-        } //это тест
-    }*/
-
     private suspend fun removeShoppingList(listId: Int): Boolean? { // удаление списка
         val isSuccessRemove = mainApi.removeShoppingList(listId)
         if (isSuccessRemove.isSuccessful) {
@@ -124,31 +107,6 @@ class CreateListsFragment : Fragment() {
         Log.i("Update RecyclerView", "get item in shoppingList")
 
     }
-
-    /*fun showAddListDialog() { // диалоговое окно, создание списка
-        binding = DialogAddListBinding.inflate(LayoutInflater.from(APP_ACTIVITY))
-        val dialog = AlertDialog.Builder(APP_ACTIVITY)
-            .setView(binding.root)
-            .setTitle("Добавить список")
-            .setPositiveButton("Создать") { _, _ ->
-                val listName = binding.nameList.text.toString()
-                if (listName.isNotEmpty()) {
-                    CoroutineScope(Dispatchers.IO).launch {
-                        val item = createShoppingList(KEY_VALUE, listName, mainApi)
-                        requireActivity().runOnUiThread {
-                            Log.i("CreateNewList", "createShoppingList()")
-                            if (item != null) {
-                                addItemInShoppingList(item)
-                            }
-                        }
-                    }
-                }
-            }
-            .setNegativeButton("Отмена", null)
-            .create()
-
-        dialog.show() //это тест
-    }*/
 
     fun showAddListDialog() { // диалоговое окно, создание списка
         binding = DialogAddListBinding.inflate(LayoutInflater.from(APP_ACTIVITY))

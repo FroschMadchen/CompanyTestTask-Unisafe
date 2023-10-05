@@ -1,4 +1,4 @@
-package com.example.testtackunisafe.recevied_data
+package com.example.testtackunisafe.domain.recevied_data
 
 import android.widget.ImageView
 

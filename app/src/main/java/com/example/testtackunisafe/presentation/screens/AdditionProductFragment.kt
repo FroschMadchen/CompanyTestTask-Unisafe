@@ -1,4 +1,4 @@
-package com.example.testtackunisafe.screens
+package com.example.testtackunisafe.presentation.screens
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

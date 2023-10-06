@@ -19,9 +19,10 @@ import com.example.testtackunisafe.presentation.adapter.ActionListener
 import com.example.testtackunisafe.presentation.adapter.ShopListAdapter
 import com.example.testtackunisafe.databinding.DialogAddListBinding
 import com.example.testtackunisafe.databinding.FragmentCreateListsBinding
-import com.example.testtackunisafe.domain.recevied_data.ShopListConstructor
+import com.example.testtackunisafe.domain.custom_type.ShopListConstructor
 import com.example.testtackunisafe.presentation.viewmodel.CreateListsVM
 import com.example.testtackunisafe.data.utils.APP_ACTIVITY
+import com.example.testtackunisafe.domain.custom_type.Product
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -37,6 +38,7 @@ class CreateListsFragment : Fragment() {
 
     private lateinit var adapter: ShopListAdapter
     private val shoppingList = ArrayList<ShopListConstructor>() // список списков
+    private val productList = ArrayList<Product>() // списко продуктов
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -115,7 +117,7 @@ class CreateListsFragment : Fragment() {
             .setTitle("Добавить список")
             .setPositiveButton("Создать") { _, _ ->
                 val listName = binding.nameList.text.toString()
-                vm.sendNameList(listName)
+                vm.sendNameList(listName,productList)
                    // addItemInShoppingList(item)
 
             }

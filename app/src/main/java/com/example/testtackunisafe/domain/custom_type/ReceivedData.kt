@@ -1,6 +1,4 @@
-package com.example.testtackunisafe.domain.recevied_data
-
-import android.widget.ImageView
+package com.example.testtackunisafe.domain.custom_type
 
 data class ReceivedData(
     val key:String,
@@ -8,11 +6,6 @@ data class ReceivedData(
     val list_id: Int, //    list_id - id списка, созданный на сервере, по этому id можно взаимодествовать со списком.
     val name: String,
     val shop_list:List<Product>
-)
-data class Product(
-    val created: String,
-    val id: Int,
-    val name: String
 )
 
 

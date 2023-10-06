@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.testtackunisafe.R
 import com.example.testtackunisafe.databinding.ItemProductBinding
-import com.example.testtackunisafe.domain.recevied_data.ShopListConstructor
+import com.example.testtackunisafe.domain.custom_type.ShopListConstructor
 
 interface ActionListener{
     fun deleteList(listId: Int)

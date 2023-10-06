@@ -6,8 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.testtackunisafe.domain.RetrofitClient
 import com.example.testtackunisafe.domain.`interface`.MainApi
-import com.example.testtackunisafe.domain.recevied_data.ShopListConstructor
+import com.example.testtackunisafe.domain.custom_type.ShopListConstructor
 import com.example.testtackunisafe.data.utils.KEY_VALUE
+import com.example.testtackunisafe.domain.custom_type.Product
 import kotlinx.coroutines.launch
 
 class CreateListsVM:ViewModel() {
@@ -15,9 +16,9 @@ class CreateListsVM:ViewModel() {
     private val itemLive = MutableLiveData<ShopListConstructor?>()
     val item:LiveData<ShopListConstructor?> = itemLive
 
- fun sendNameList(listName:String){
+ fun sendNameList(listName:String,productList:ArrayList<Product>){ // получаем имя списка
      viewModelScope.launch {
-         val item = createShoppingList(KEY_VALUE, listName, mainApi)
+         val item = createShoppingList(KEY_VALUE, listName, productList = productList)
          itemLive.value = item
 
      }
@@ -28,12 +29,12 @@ class CreateListsVM:ViewModel() {
     private suspend fun createShoppingList( //создание списка
         dataKey: String,
         nameList: String,
-        mainApi: MainApi
+        productList:ArrayList<Product>
     ): ShopListConstructor? {
-        val productId = mainApi.createShoppingList(dataKey, nameList)
-        if (productId.isSuccessful) {
+        val listId = mainApi.createShoppingList(dataKey, nameList)
+        if (listId.isSuccessful) {
             val shopList: ShopListConstructor? =
-                productId.body()?.list_id?.let { ShopListConstructor(it, nameList) }
+                listId.body()?.list_id?.let { ShopListConstructor(it, nameList,productList) }
             return shopList
         } else {
             return null

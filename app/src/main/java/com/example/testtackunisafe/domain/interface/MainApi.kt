@@ -1,7 +1,7 @@
 package com.example.testtackunisafe.domain.`interface`
 
 
-import com.example.testtackunisafe.domain.recevied_data.ReceivedData
+import com.example.testtackunisafe.domain.custom_type.ReceivedData
 import retrofit2.Response
 import retrofit2.http.DELETE
 import retrofit2.http.GET

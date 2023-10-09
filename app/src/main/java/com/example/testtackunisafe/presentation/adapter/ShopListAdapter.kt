@@ -1,5 +1,6 @@
 package com.example.testtackunisafe.presentation.adapter
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +16,7 @@ interface ActionListener{
 }
 class ShopListAdapter(
     private val actionListener: ActionListener,
-    private val shopLists: List<ShopListConstructor>
+    private val shopLists: List<ShopListConstructor>,
     )
     : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>(),View.OnClickListener {
 

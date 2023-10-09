@@ -30,6 +30,8 @@
         tools:layout="@layout/fragment_addition_product" >
         <action
             android:id="@+id/action_additionProduct_to_createListsProducts"
-            app:destination="@id/createListsProducts" />
+            app:destination="@id/createListsProducts"
+            />
+
     </fragment>
 </navigation>

@@ -35,6 +35,7 @@ class CreateListsFragment : Fragment() {
     private val mBinding get() = _binding!!
     private lateinit var navController: NavController
     private lateinit var vm: CreateListsVM
+    private  var data:String = "listString"
 
     private lateinit var adapter: ShopListAdapter
     private val shoppingList = ArrayList<ShopListConstructor>() // список списков
@@ -72,7 +73,16 @@ class CreateListsFragment : Fragment() {
             }
 
             override fun openList(listId: Int) { // клик по элементу
-                navController.navigate(R.id.action_createListsProducts_to_additionProduct)
+                val isIdPresent = shoppingList.find { product -> product.listId == listId }
+                if (isIdPresent != null){
+                    val bundle = Bundle()
+                    bundle.putSerializable("keyValue",isIdPresent )
+                    Log.i("KeyValue","keyValue $data")
+                    navController.navigate(R.id.action_createListsProducts_to_additionProduct,bundle)
+                } else {
+
+                }
+//                navController.navigate(R.id.action_createListsProducts_to_additionProduct)
             }
         }, shoppingList)
 
@@ -127,6 +137,8 @@ class CreateListsFragment : Fragment() {
         dialog.show()
     }
 }
+
+
 
 
 

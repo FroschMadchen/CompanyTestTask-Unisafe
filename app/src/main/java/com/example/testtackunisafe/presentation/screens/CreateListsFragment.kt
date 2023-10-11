@@ -17,12 +17,12 @@ import com.example.testtackunisafe.domain.RetrofitClient
 import com.example.testtackunisafe.domain.RetrofitClient.mainApi
 import com.example.testtackunisafe.presentation.adapter.ActionListener
 import com.example.testtackunisafe.presentation.adapter.ShopListAdapter
-import com.example.testtackunisafe.databinding.DialogAddListBinding
+import com.example.testtackunisafe.databinding.DialogCreateListBinding
 import com.example.testtackunisafe.databinding.FragmentCreateListsBinding
-import com.example.testtackunisafe.domain.custom_type.ShopListConstructor
+import com.example.testtackunisafe.domain.model.ShopListConstructor
 import com.example.testtackunisafe.presentation.viewmodel.CreateListsVM
 import com.example.testtackunisafe.data.utils.APP_ACTIVITY
-import com.example.testtackunisafe.domain.custom_type.Product
+import com.example.testtackunisafe.domain.model.Product
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -31,7 +31,7 @@ import kotlinx.coroutines.launch
 class CreateListsFragment : Fragment() {
 
     private var _binding: FragmentCreateListsBinding? = null
-    private lateinit var binding: DialogAddListBinding
+    private lateinit var binding: DialogCreateListBinding
     private val mBinding get() = _binding!!
     private lateinit var navController: NavController
     private lateinit var vm: CreateListsVM
@@ -117,7 +117,7 @@ class CreateListsFragment : Fragment() {
     }
 
     fun showAddListDialog() { // диалоговое окно, создание списка
-        binding = DialogAddListBinding.inflate(LayoutInflater.from(APP_ACTIVITY))
+        binding = DialogCreateListBinding.inflate(LayoutInflater.from(APP_ACTIVITY))
         val dialog = AlertDialog.Builder(APP_ACTIVITY)
             .setView(binding.root)
             .setTitle("Добавить список")

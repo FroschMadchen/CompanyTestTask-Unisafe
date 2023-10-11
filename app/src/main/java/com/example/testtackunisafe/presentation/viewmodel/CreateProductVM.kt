@@ -1,10 +1,15 @@
 package com.example.testtackunisafe.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.testtackunisafe.domain.RetrofitClient
-import com.example.testtackunisafe.domain.custom_type.Product
+import com.example.testtackunisafe.domain.model.Product
+import com.example.testtackunisafe.domain.model.ReceivedData
+import kotlinx.coroutines.launch
+import retrofit2.Response
 
 
 /*Добавить товар в список - AddToShoppingList? и Вычеркнуть товар из списка -
@@ -16,18 +21,52 @@ https://cyberprot.ru/shopping/v1/AddToShoppingList?id=4&value=tools&n=3
 https://cyberprot.ru/shopping/v1/RemoveShoppingList?list_id=2
 Ответ сервера: {"success":true,"new_value":false}*/
 
-class CreateProductVM : ViewModel(){
+class CreateProductVM : ViewModel() {
     private val mainApi = RetrofitClient.mainApi
 
     private val liveData = MutableLiveData<Product>()
     val data: LiveData<Product?> = liveData
 
 
-    fun addToShoppingList(itemProduct:MutableList<Product>){ //добавить товар в корзину
+    fun addProductToList(productList: MutableList<Product>, incomingProduct: Product) {
+        viewModelScope.launch {
+            val Product = addProductToServer(incomingProduct)
+            liveData.value = Product
+            Log.i("addProductToList "," in ViewModel")
+        }
+    }
+
+    private suspend fun addProductToServer(incomingProduct: Product): Product {
+        // https: cyberprot.ru/shopping/v1/AddToShoppingList?id=4&value=tools&n=3
+        val info = mainApi.addToShoppingList(
+            id = incomingProduct.list_id,
+            value = incomingProduct.name,
+            n = incomingProduct.quantity
+        )
+        if (info.isSuccessful) {
+            val item_id: Int? = info.body()?.item_id
+            if (item_id != null) {
+                val comingOutProduct = Product(
+                    incomingProduct.name,
+                    incomingProduct.quantity,
+                    incomingProduct.list_id,
+                    item_id
+                )
+                Log.i("addProductToServer"," name: ${comingOutProduct.name}," +
+                        "id item: ${comingOutProduct.item_id}")
+                return comingOutProduct
+
+            }else{
+                return incomingProduct
+            }
+        }else{
+            return incomingProduct
+        }
 
     }
 
-    suspend fun CrossltOff(){ //удалить товар  из корзину
+
+    suspend fun CrossltOff() { //удалить товар  из корзину
 
     }
 }

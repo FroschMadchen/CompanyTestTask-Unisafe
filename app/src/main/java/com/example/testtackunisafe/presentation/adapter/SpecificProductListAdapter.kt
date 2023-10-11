@@ -4,17 +4,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
-import com.example.testtackunisafe.databinding.ItemProductBinding
-import com.example.testtackunisafe.domain.custom_type.Product
+import com.example.testtackunisafe.databinding.ItemProductListBinding
+import com.example.testtackunisafe.domain.model.Product
 
 class SpecificProductListAdapter(
     private val productList: ArrayList<Product>
 ):RecyclerView.Adapter<SpecificProductListAdapter.ItemProductViewHolder>() {
-    class ItemProductViewHolder(val binding: ItemProductBinding):RecyclerView.ViewHolder(binding.root)
+    class ItemProductViewHolder(val binding: ItemProductListBinding):RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemProductViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding:ItemProductBinding= ItemProductBinding.inflate(inflater,parent,false)
+        val binding:ItemProductListBinding= ItemProductListBinding.inflate(inflater,parent,false)
         binding.titleList
         binding.btnDelete.setOnClickListener(this)
         return ItemProductViewHolder(binding)

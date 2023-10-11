@@ -1,7 +1,5 @@
-package com.example.testtackunisafe.domain.custom_type
+package com.example.testtackunisafe.domain.model
 
-import android.os.Parcel
-import android.os.Parcelable
 import java.io.Serializable
 
 

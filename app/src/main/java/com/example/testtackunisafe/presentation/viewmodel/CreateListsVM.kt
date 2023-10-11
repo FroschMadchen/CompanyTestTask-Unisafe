@@ -5,10 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.testtackunisafe.domain.RetrofitClient
-import com.example.testtackunisafe.domain.`interface`.MainApi
-import com.example.testtackunisafe.domain.custom_type.ShopListConstructor
+import com.example.testtackunisafe.domain.model.ShopListConstructor
 import com.example.testtackunisafe.data.utils.KEY_VALUE
-import com.example.testtackunisafe.domain.custom_type.Product
+import com.example.testtackunisafe.domain.model.Product
 import kotlinx.coroutines.launch
 
 class CreateListsVM:ViewModel() {
@@ -20,7 +19,6 @@ class CreateListsVM:ViewModel() {
      viewModelScope.launch {
          val item = createShoppingList(KEY_VALUE, listName, productList = productList)
          itemLive.value = item
-
      }
   }
 

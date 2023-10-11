@@ -1,7 +1,7 @@
 package com.example.testtackunisafe.domain.`interface`
 
 
-import com.example.testtackunisafe.domain.custom_type.ReceivedData
+import com.example.testtackunisafe.domain.model.ReceivedData
 import retrofit2.Response
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -38,10 +38,10 @@ interface MainApi {
 
 
 
-    @POST("AddToShoppingList?id={id}&value={tools}&n={3}") // (дороботвать) добавить товра в список покупок
-    suspend fun addToShoppingList(@Path("id")id:String,
-                                  @Path("tools")tools:String,
-                                  @Path("n")n:Int
+    @POST("AddToShoppingList") // (дороботвать) добавить товра в список покупок
+    suspend fun addToShoppingList(@Query("id")id:Int,
+                                  @Query("value")value:String,
+                                  @Query("n")n:Int
     ):Response<ReceivedData>
 //     https://cyberprot.ru/shopping/v1/AddToShoppingList?id=4&value=tools&n=3 (id :спсика, value : (имя продукта), n : кол-во
 //     Ответ сервера: {"success":true,"item_id":8}, где item_id - id предмета внутри списка покупок.

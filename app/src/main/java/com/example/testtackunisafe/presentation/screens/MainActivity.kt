@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(mBinding.root)
 
         mToolbar = mBinding.toolbar
+        setSupportActionBar(mToolbar)
         mNavConverter = Navigation.findNavController(this, R.id.nav_host_fragment)
         setSupportActionBar(mToolbar)
         title = getString(R.string.name_app_custom)

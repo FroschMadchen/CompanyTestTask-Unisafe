@@ -38,7 +38,7 @@ interface MainApi {
 
 
 
-    @POST("AddToShoppingList") // (дороботвать) добавить товра в список покупок
+    @POST("AddToShoppingList") //  добавить товра в список покупок
     suspend fun addToShoppingList(@Query("id")id:Int,
                                   @Query("value")value:String,
                                   @Query("n")n:Int
@@ -46,9 +46,12 @@ interface MainApi {
 //     https://cyberprot.ru/shopping/v1/AddToShoppingList?id=4&value=tools&n=3 (id :спсика, value : (имя продукта), n : кол-во
 //     Ответ сервера: {"success":true,"item_id":8}, где item_id - id предмета внутри списка покупок.
 //
-    @DELETE("CrossItOff") // Удалить товра из списка покупок
-    suspend fun crossItOff(@Query ("list_id")list_id:Int):Response<ReceivedData>
-//    https://cyberprot.ru/shopping/v1/CrossItOff?list_id=2
+    @POST("CrossItOff") // Удалить товра из списка покупок
+    @Headers("Accept:text/plane")
+    suspend fun crossItOff(@Query ("list_id")list_id:Int,
+                           @Query ("id")id:Int
+    ):Response<ReceivedData>
+//    https://cyberprot.ru/shopping/v1/CrossItOff?list_id=276&id=45
 //    Ответ сервера: {"success":true,"new_value":false}
 
 

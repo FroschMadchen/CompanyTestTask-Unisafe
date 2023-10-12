@@ -1,5 +1,6 @@
 package com.example.testtackunisafe.presentation.screens
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Build
 import android.os.Bundle
@@ -9,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.testtackunisafe.data.utils.APP_ACTIVITY
@@ -19,6 +21,9 @@ import com.example.testtackunisafe.domain.model.ShopListConstructor
 import com.example.testtackunisafe.presentation.adapter.ActionListenerProduct
 import com.example.testtackunisafe.presentation.adapter.SpecificProductListAdapter
 import com.example.testtackunisafe.presentation.viewmodel.CreateProductVM
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class AdditionProductFragment : Fragment() {
@@ -33,6 +38,7 @@ class AdditionProductFragment : Fragment() {
 
     private var list_id: Int = 0
 
+    @SuppressLint("SuspiciousIndentation")
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,12 +50,14 @@ class AdditionProductFragment : Fragment() {
             false
         )
 
+
         val keyText = arguments?.getSerializable("keyValue", ShopListConstructor::class.java)
         if (keyText != null) {
             list_id = keyText.listId
             productList = keyText.list
+            (activity as AppCompatActivity).supportActionBar?.title = keyText.name
 
-            Log.i("mainUI"," ID СПИСКА ${list_id}")
+                Log.i("mainUI"," ID СПИСКА ${list_id}")
         }
 
         adapter = SpecificProductListAdapter(object : ActionListenerProduct{
@@ -58,6 +66,9 @@ class AdditionProductFragment : Fragment() {
                 if(selectedItem != -1){
                     val item =productList[selectedItem]
                     item.crossedOut = true
+                    CoroutineScope(Dispatchers.IO).launch {
+                        vm.crossltOff(item_id,list_id)
+                    }
                     Log.i("deleteProduct mainUI","item: $selectedItem")
                     adapter.notifyDataSetChanged()
                 }

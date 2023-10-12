@@ -3,6 +3,7 @@ package com.example.testtackunisafe.presentation.adapter
 
 import android.graphics.Paint
 import android.nfc.Tag
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,11 +50,14 @@ class SpecificProductListAdapter(
 //            titleList.text = product.name
             quantityProduct.text = product.quantity.toString()
 
+
             if (product.crossedOut) {
                 titleList.text = product.name
-                titleList.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                titleList.paintFlags = titleList.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                Log.i("TextCrossedOut","text is crossed out*")
             } else {
                 titleList.text = product.name
+                titleList.paintFlags = titleList.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
             }
         }
     }

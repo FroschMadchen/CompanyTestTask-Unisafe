@@ -27,13 +27,6 @@ class ShopListAdapter(
 
         binding.root.setOnClickListener(this)
         binding.btnDelete.setOnClickListener(this)
-        /*
-        val view = LayoutInflater.from(parent.context).inflate(
-            R.layout.item_product,
-            parent,
-            false
-        )*/
-
         return ShopItemViewHolder(binding)
     }
 

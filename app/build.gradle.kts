@@ -9,8 +9,8 @@ android {
 
     buildFeatures {
         viewBinding = true
-
     }
+
 
     defaultConfig {
         viewBinding.isEnabled = true

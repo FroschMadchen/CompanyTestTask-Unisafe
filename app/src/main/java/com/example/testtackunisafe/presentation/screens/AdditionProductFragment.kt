@@ -16,6 +16,7 @@ import com.example.testtackunisafe.databinding.DialogAddProductBinding
 import com.example.testtackunisafe.databinding.FragmentAdditionProductBinding
 import com.example.testtackunisafe.domain.model.Product
 import com.example.testtackunisafe.domain.model.ShopListConstructor
+import com.example.testtackunisafe.presentation.adapter.ActionListenerProduct
 import com.example.testtackunisafe.presentation.adapter.SpecificProductListAdapter
 import com.example.testtackunisafe.presentation.viewmodel.CreateProductVM
 
@@ -51,7 +52,23 @@ class AdditionProductFragment : Fragment() {
             Log.i("mainUI"," ID СПИСКА ${list_id}")
         }
 
-        adapter = SpecificProductListAdapter(productList)
+        adapter = SpecificProductListAdapter(object : ActionListenerProduct{
+            override fun deleteProduct(item_id: Int) {
+                val selectedItem = productList.indexOfFirst { it.item_id == item_id }
+                if(selectedItem != -1){
+                    val item =productList[selectedItem]
+                    item.crossedOut = true
+                    Log.i("deleteProduct mainUI","item: $selectedItem")
+                    adapter.notifyDataSetChanged()
+                }
+
+            }
+
+            override fun editProduct(item_id: Int) {
+                TODO("Not yet implemented")
+            }
+
+        },productList)
         mBinding.recyclerViewProduct.layoutManager = LinearLayoutManager(APP_ACTIVITY)
         mBinding.recyclerViewProduct.adapter = adapter
 
@@ -61,13 +78,13 @@ class AdditionProductFragment : Fragment() {
             showAddProductDialog(list_id)
         }
 
-        vm.data.observe(APP_ACTIVITY,{
-            if (it !=null){
+        vm.data.observe(APP_ACTIVITY) {
+            if (it != null) {
                 productList.add(it)
                 Log.i("liveData", "observe :${it.name},${it.item_id}")
                 adapter.notifyDataSetChanged()
             }
-        })
+        }
         return mBinding.root
     }
 

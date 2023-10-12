@@ -66,7 +66,7 @@ class CreateProductVM : ViewModel() {
     }
 
 
-    suspend fun CrossltOff() { //удалить товар  из корзину
+    suspend fun crossltOff(item_id:Int) { //удалить товар  из корзину
 
     }
 }

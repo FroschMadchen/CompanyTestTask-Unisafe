@@ -8,10 +8,13 @@
     app:cardElevation="10dp"
     app:cardCornerRadius="15dp">
 
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin">
+
 
         <TextView
             android:id="@+id/titleList"
@@ -31,10 +34,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.138"
-            tools:text="Name note" />
+
+            tools:text="@{item.text}" />
 
         <TextView
-            android:id="@+id/timeCreateProduct"
+            android:id="@+id/quantityProduct"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_start_middle"
@@ -50,11 +54,11 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/titleList"
-            app:layout_constraintVertical_bias="0.0"
-            tools:text="Time Create" />
+            app:layout_constraintVertical_bias="0.05"
+            tools:text="Quantity" />
 
         <TextView
-            android:id="@+id/quantityProduct"
+            android:id="@+id/timeCreateProduct"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_start_middle"
@@ -69,15 +73,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/timeCreateProduct"
-            tools:text="Quantity" />
+            app:layout_constraintTop_toBottomOf="@+id/quantityProduct"
+            tools:text="Time create" />
 
         <Button
             android:id="@+id/btnDelete"
-            android:layout_width="71dp"
-            android:layout_height="72dp"
-            android:layout_marginTop="44dp"
-            android:layout_marginEnd="36dp"
+            android:layout_width="96dp"
+            android:layout_height="99dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:contentDescription="@string/button_delete_product"
             android:background="@drawable/ic_delete"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"

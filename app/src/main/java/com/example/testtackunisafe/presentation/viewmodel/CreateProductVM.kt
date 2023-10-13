@@ -69,7 +69,12 @@ class CreateProductVM : ViewModel() {
     suspend fun crossltOff(item_id:Int,id_list:Int) { //вычеркнуть  товар  из корзину
     // https://cyberprot.ru/shopping/v1/CrossItOff?list_id=276&id=45
                 mainApi.crossItOff(list_id = id_list, id = item_id)
+    }
 
+    fun getShoppingList(){
+    //Загрузить конкретный список - GetShoppingList?
 
     }
+
+
 }

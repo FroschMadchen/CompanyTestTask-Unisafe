@@ -2,12 +2,11 @@ package com.example.testtackunisafe.domain.`interface`
 
 
 import com.example.testtackunisafe.domain.model.ReceivedData
+import com.example.testtackunisafe.domain.model.loadingReadyList.ShopListData
 import retrofit2.Response
-import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
-import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface MainApi {
@@ -46,7 +45,7 @@ interface MainApi {
 //     https://cyberprot.ru/shopping/v1/AddToShoppingList?id=4&value=tools&n=3 (id :спсика, value : (имя продукта), n : кол-во
 //     Ответ сервера: {"success":true,"item_id":8}, где item_id - id предмета внутри списка покупок.
 //
-    @POST("CrossItOff") // Удалить товра из списка покупок
+    @POST("CrossItOff") // зачеркнуть товра из списка покупок
     @Headers("Accept:text/plane")
     suspend fun crossItOff(@Query ("list_id")list_id:Int,
                            @Query ("id")id:Int
@@ -56,19 +55,21 @@ interface MainApi {
 
 
 
+/*    @POST("RemoveFromList") //удалить товар из списка
+    @Headers("Accept:text/plane")
+    suspend fun removeFromList(@Query("list_id")list_id:Int,
+                                @Query("item_id")item_id:Int
+    ):Response<ReceivedData>
+    //    https://cyberprot.ru/shopping/v2/RemoveFromList?list_id=711&item_id=877*/
 
     @GET("GetAllMyShopLists")
-    suspend fun getAllMyShopLists(@Query("key") key: String):Response<ReceivedData>
+    suspend fun getAllMyShopLists(@Query("key") key: String):Response<ShopListData> //Получить перечень списков
 //    https://cyberprot.ru/shopping/v1/GetAllMyShopLists?key=92EGHS
 //    {"shop_list":[{"created":"2023-08-28 06:35:44","name":"Test1","id":2},...,"success":true}
 
-    @GET("GetShoppingList")
-    suspend fun getSoppingList(@Query("key")key:String):Response<ReceivedData>
-//    https://cyberprot.ru/shopping/v1/GetShoppingList?list_id=4
-//    {"success":true,"item_list":[{"created":"2","name":"steel armor","id":3},
-//  {"created":"1","name":"huge hammer","id":4},{"created":"1","name":"sharp spear","id":5},
-//  {"created":"17","name":"bear traps","id":6},{"created":"40","name":"barrels of
-//  explosives","id":7},{"created":"5","name":"thieves tools","id":8}]}
+/*    @GET("GetShoppingList")
+    suspend fun getSoppingList(@Query("key")key:String):Response<ProductListData>
 
+//    https://cyberprot.ru/shopping/v2/GetShoppingList?list_id=711*/
 }
 

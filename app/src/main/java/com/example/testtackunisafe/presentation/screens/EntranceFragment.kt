@@ -45,11 +45,20 @@ class EntranceFragment : Fragment() {
             val inputKey = _binding?.editTextKey?.text.toString()
             KEY_VALUE = inputKey
             try{
-                vm.getAllMyShopLists(inputKey)
-
-
+                CoroutineScope(Dispatchers.IO).launch{
+                    val shopListData = vm.getAllMyShopLists(inputKey)
+                    Log.i("MessageEntranceFrag", "success get data from VM :${shopListData?.success}")
+                    if(shopListData != null){
+                            APP_ACTIVITY.runOnUiThread {
+                                Log.i("Transaction", "action_entrance_to_createListsProducts")
+                                val bundle = Bundle()
+                                bundle.putSerializable("shopList",shopListData)
+                                navController.navigate(R.id.action_entrance_to_createListsProducts,bundle)
+                            }
+                    }
+                }
             }catch (e:Exception){
-                Log.i("never key","key wrong ")
+                Log.i("EntrenceFragment"," ${e.message}")
             }
         }
 
@@ -61,12 +70,11 @@ class EntranceFragment : Fragment() {
                 val successfulLogin: Boolean = authentication(mainApi, keyValue)
                 Log.i("SuccessfulLogin", "Successful login: " + successfulLogin)
                 APP_ACTIVITY.runOnUiThread {
-
-             val createListsProductsFragment = CreateListsFragment() // новый экзмепляр фрагмент
+            /* val createListsProductsFragment = CreateListsFragment() // новый экзмепляр фрагмент
                     val bundle = Bundle()
                     bundle.putString("keyValue", keyValue)
                     Log.i("KeyValue","keyValue $keyValue")
-                    createListsProductsFragment.arguments = bundle
+                    createListsProductsFragment.arguments = bundle*/
                     navController.navigate(R.id.action_entrance_to_createListsProducts)
                 }
             }
@@ -87,5 +95,6 @@ class EntranceFragment : Fragment() {
             "missing key"
         }
     }
+
 }
 

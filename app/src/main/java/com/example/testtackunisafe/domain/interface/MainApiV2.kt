@@ -10,7 +10,7 @@ import retrofit2.http.Query
 
 interface MainApiV2 {
     @GET("GetShoppingList")
-    suspend fun getSoppingList(@Query("key")key:String): Response<ProductListData> // получить список продуктов
+    suspend fun getSoppingList(@Query("list_id")list_id:Int): Response<ProductListData> // получить список продуктов
 //    https://cyberprot.ru/shopping/v2/GetShoppingList?list_id=711
 
 

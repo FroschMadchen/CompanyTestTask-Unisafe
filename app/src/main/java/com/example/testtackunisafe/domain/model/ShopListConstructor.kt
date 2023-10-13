@@ -4,7 +4,8 @@ import java.io.Serializable
 
 
 data class ShopListConstructor(
-    val listId:Int,
-    val name: String,
-    val list:ArrayList<Product>
+    val listId:Int, //id
+    val name: String, //name
+    val list:ArrayList<Product> // список который хранится в элементе
+
     ) : Serializable

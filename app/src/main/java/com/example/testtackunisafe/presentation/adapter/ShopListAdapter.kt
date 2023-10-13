@@ -6,16 +6,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.testtackunisafe.R
 import com.example.testtackunisafe.databinding.ItemShoppingListBinding
-import com.example.testtackunisafe.domain.model.ShopListConstructor
+import com.example.testtackunisafe.domain.model.loadingReadyList.Shop
 
 interface ActionListener{
-    fun deleteList(listId: Int)
-    fun openList(listId: Int)
+    fun deleteList(id: Int)
+    fun openList(id: Int)
 
 }
 class ShopListAdapter(
     private val actionListener: ActionListener,
-    private val shopLists: List<ShopListConstructor>,
+    private val listOfLists: MutableList<Shop>,
     )
     : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>(),View.OnClickListener {
 
@@ -31,29 +31,29 @@ class ShopListAdapter(
     }
 
     override fun onBindViewHolder(holder: ShopItemViewHolder, position: Int) {
-        val shopList = shopLists[position]
+        val shopList = listOfLists[position]
         with(holder.binding) {
-            btnDelete.tag = shopList.listId
-            holder.itemView.tag= shopList.listId
+            btnDelete.tag = shopList.id
+            holder.itemView.tag= shopList.id
 
             titleList.text = shopList.name
         }
     }
     override fun getItemCount(): Int {
-       return shopLists.size
+       return listOfLists.size
     }
     class ShopItemViewHolder(val binding: ItemShoppingListBinding) :
         RecyclerView.ViewHolder(binding.root)
     override fun onClick(view: View?) {
-        val listId = view?.tag as Int
+        val id = view?.tag as Int
         when (view.id) {
             R.id.btnDelete -> {
                 // Обработка клика на кнопке удаления
-                actionListener.deleteList(listId)
+                actionListener.deleteList(id)
             }
             else -> {
                 // Обработка клика на элементе списка
-                actionListener.openList(listId)
+                actionListener.openList(id)
             }
         }
     }

@@ -14,17 +14,22 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.testtackunisafe.R
 import com.example.testtackunisafe.domain.RetrofitClient.mainApi
 import com.example.testtackunisafe.presentation.adapter.ActionListener
 import com.example.testtackunisafe.presentation.adapter.ShopListAdapter
 import com.example.testtackunisafe.databinding.DialogCreateListBinding
 import com.example.testtackunisafe.databinding.FragmentCreateListsBinding
-import com.example.testtackunisafe.domain.model.ShopListConstructor
+
 import com.example.testtackunisafe.presentation.viewmodel.CreateListsVM
 import com.example.testtackunisafe.data.utils.APP_ACTIVITY
+import com.example.testtackunisafe.domain.RetrofitClientV2.mainApiV2
 import com.example.testtackunisafe.domain.model.Product
 import com.example.testtackunisafe.domain.model.loadingReadyList.Shop
 import com.example.testtackunisafe.domain.model.loadingReadyList.ShopListData
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class CreateListsFragment : Fragment() {
@@ -36,9 +41,10 @@ class CreateListsFragment : Fragment() {
     private lateinit var vm: CreateListsVM
 
     private lateinit var adapter: ShopListAdapter
-    private val shoppingList = ArrayList<ShopListConstructor>() // список списков
+//    private val shoppingList = ArrayList<ShopListConstructor>() // список списков
     private val productList = ArrayList<Product>() // списко продуктов
-    private  var listOfLists = mutableListOf<Shop>()
+
+    private  var listOfLists = mutableListOf<Shop>() //ПЕРЕЧЕНЬ СПИСОК
 
 
 
@@ -80,8 +86,10 @@ class CreateListsFragment : Fragment() {
                     val bundle = Bundle()
                     bundle.putSerializable("keyValue",isIdPresent )
                     navController.navigate(R.id.action_createListsProducts_to_additionProduct,bundle)
-                }*/TODO("NOT IMPLEMENTATION")
+                }*/
 //                navController.navigate(R.id.action_createListsProducts_to_additionProduct)
+                getShoppingList(id)
+
             }
         }, listOfLists)
 
@@ -94,18 +102,17 @@ class CreateListsFragment : Fragment() {
             showAddListDialog()
         }
 
-     /*   vm.item.observe(APP_ACTIVITY, Observer {
+       vm.item.observe(APP_ACTIVITY, Observer {
             if (it != null) {
                 addItemInShoppingList(it)
             }
         })
-*/
+
         val shopList = arguments?.getSerializable("shopList",ShopListData::class.java)
         if(shopList != null){
             val list: List<Shop> = shopList.shop_list
             listOfLists.clear()
             listOfLists.addAll(list)
-//            listOfLists = list.toMutableList()
             Log.i("New value","${listOfLists.size}")
             adapter.notifyDataSetChanged()
 
@@ -128,10 +135,10 @@ class CreateListsFragment : Fragment() {
         }
     }
 
-    fun addItemInShoppingList(item: ShopListConstructor) { // добавляем эелемент в recyclerView
-        shoppingList.add(item)
+    fun addItemInShoppingList(item: Shop) { // добавляем созданный эелемент в recyclerView
+        listOfLists.add(item)
         Log.i("NEWListID", "$item.id , ${item.name}")
-//        adapter.notifyDataSetChanged()
+        adapter.notifyDataSetChanged()
         Log.i("Update RecyclerView", "get item in shoppingList")
 
     }
@@ -142,9 +149,9 @@ class CreateListsFragment : Fragment() {
             .setView(binding.root)
             .setTitle("Добавить список")
             .setPositiveButton("Создать") { _, _ ->
-                val listName = binding.nameList.text.toString()
-                vm.sendNameList(listName,productList)
-                   // addItemInShoppingList(item)
+                val listName = binding.nameList.text.toString() //получаем имя нового  листа
+                vm.sendNameList(listName,listOfLists)
+//                addItemInShoppingList(item)
 
             }
             .setNegativeButton("Отмена", null)
@@ -152,7 +159,23 @@ class CreateListsFragment : Fragment() {
 
         dialog.show()
     }
+    fun getShoppingList (id:Int) { //загружаю список продуктов через id списка
+        CoroutineScope(Dispatchers.IO).launch{
+            val productInfo = mainApiV2.getSoppingList(id)
+            if (productInfo.isSuccessful)
+                APP_ACTIVITY.runOnUiThread {
+                    val product = productInfo.body()
+                    val bundle = Bundle()
+                    bundle.putInt("id_list",id)
+                    bundle.putSerializable("item_list",product )
+                    navController.navigate(R.id.action_createListsProducts_to_additionProduct,bundle)
+             }
+        }
+    }
 }
+
+
+
 
 
 

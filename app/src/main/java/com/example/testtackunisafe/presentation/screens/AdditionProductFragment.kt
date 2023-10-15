@@ -1,7 +1,6 @@
 package com.example.testtackunisafe.presentation.screens
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -16,14 +15,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.testtackunisafe.data.utils.APP_ACTIVITY
 import com.example.testtackunisafe.databinding.DialogAddProductBinding
 import com.example.testtackunisafe.databinding.FragmentAdditionProductBinding
-import com.example.testtackunisafe.domain.model.Product
-import com.example.testtackunisafe.domain.model.ShopListConstructor
+import com.example.testtackunisafe.domain.model.loadingReadyList.Item
+import com.example.testtackunisafe.domain.model.loadingReadyList.ProductListData
 import com.example.testtackunisafe.presentation.adapter.ActionListenerProduct
 import com.example.testtackunisafe.presentation.adapter.SpecificProductListAdapter
 import com.example.testtackunisafe.presentation.viewmodel.CreateProductVM
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 
 class AdditionProductFragment : Fragment() {
@@ -33,7 +29,8 @@ class AdditionProductFragment : Fragment() {
     private lateinit var binding: DialogAddProductBinding
 
     private lateinit var adapter: SpecificProductListAdapter
-    private var productList = ArrayList<Product>()
+//    private var productList = ArrayList<Product>()
+    private var productList = mutableListOf<Item>()
     private lateinit var vm: CreateProductVM
 
     private var list_id: Int = 0
@@ -50,28 +47,36 @@ class AdditionProductFragment : Fragment() {
             false
         )
 
+        val list_item =arguments?.getSerializable("item_list",ProductListData::class.java)
+        val listID = arguments?.getInt("id_list")
+        if (list_item!= null && listID != null){
+                list_id = listID
+            productList = list_item.item_list.toMutableList()
+            Log.i("BUNDEL f3","success get productList:${list_item.success}")
+            (activity as AppCompatActivity).supportActionBar?.title = listID.toString()
+        }
 
-        val keyText = arguments?.getSerializable("keyValue", ShopListConstructor::class.java)
+        /*val keyText = arguments?.getSerializable("keyValue", ShopListConstructor::class.java)
         if (keyText != null) {
             list_id = keyText.listId
             productList = keyText.list
             (activity as AppCompatActivity).supportActionBar?.title = keyText.name
 
                 Log.i("mainUI"," ID СПИСКА ${list_id}")
-        }
+        }*/
 
         adapter = SpecificProductListAdapter(object : ActionListenerProduct{
-            override fun deleteProduct(item_id: Int) {
-                val selectedItem = productList.indexOfFirst { it.item_id == item_id }
+            override fun deleteProduct(id: Int) {
+              /*  val selectedItem = productList.indexOfFirst { it.id == id }
                 if(selectedItem != -1){
                     val item =productList[selectedItem]
-                    item.crossedOut = true
+                    item.is_crossed = true
                     CoroutineScope(Dispatchers.IO).launch {
-                        vm.crossltOff(item_id,list_id)
+                        vm.crossltOff(id,list_id)
                     }
                     Log.i("deleteProduct mainUI","item: $selectedItem")
                     adapter.notifyDataSetChanged()
-                }
+                }*/ TODO("Not yet implemented")
 
             }
 
@@ -86,20 +91,20 @@ class AdditionProductFragment : Fragment() {
         vm = ViewModelProvider(this).get(CreateProductVM::class.java)
 
         _binding?.btnFloating?.setOnClickListener {
-            showAddProductDialog(list_id)
+//            showAddProductDialog(list_id)
         }
 
-        vm.data.observe(APP_ACTIVITY) {
+      /*  vm.data.observe(APP_ACTIVITY) {
             if (it != null) {
                 productList.add(it)
                 Log.i("liveData", "observe :${it.name},${it.item_id}")
                 adapter.notifyDataSetChanged()
             }
-        }
+        }*/
         return mBinding.root
     }
 
-    fun showAddProductDialog(list_id: Int) { // диалоговое оконо, добавления продукта
+/*    fun showAddProductDialog(list_id: Int) { // диалоговое оконо, добавления продукта
         binding = DialogAddProductBinding.inflate(LayoutInflater.from(APP_ACTIVITY))
         val dialog = AlertDialog.Builder(APP_ACTIVITY)
             .setView(binding.root)
@@ -118,7 +123,7 @@ class AdditionProductFragment : Fragment() {
             .setNegativeButton("Отменить",null)
             .create()
         dialog.show()
-    }
+    }*/
 }
 
 

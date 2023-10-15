@@ -16,7 +16,7 @@ interface MainApi {
 //    https://cyberprot.ru/shopping/v1/CreateTestKey?
 //    {"key" = "#XXXXXX#"} String (работает)
     @GET("Authentication")
-    suspend fun authentication(@Query("key")keyValue:String): ReceivedData
+    suspend fun authentication(@Query("key")keyValue:String): ShopListData
 //    https://cyberprot.ru/shopping/v1/Authentication?key=92EGHS
 //    {"success":true} Boolean (работает)
 
@@ -31,7 +31,7 @@ interface MainApi {
 
     @POST("RemoveShoppingList")
     @Headers("Accept:text/plane")// удалить список покупок
-    suspend fun removeShoppingList(@Query("list_id")list_id:Int):Response<ReceivedData>
+    suspend fun removeShoppingList(@Query("list_id")list_id:Int):Response<ShopListData>
 //  https://cyberprot.ru/shopping/v1/RemoveShoppingList?list_id=2  https://cyberprot.ru/shopping/v1/RemoveShoppingList?list_id=498
 //  Ответ сервера: {"success":true,"new_value":false}
 
@@ -49,7 +49,7 @@ interface MainApi {
     @Headers("Accept:text/plane")
     suspend fun crossItOff(@Query ("list_id")list_id:Int,
                            @Query ("id")id:Int
-    ):Response<ReceivedData>
+    ):Response<ShopListData>
 //    https://cyberprot.ru/shopping/v1/CrossItOff?list_id=276&id=45
 //    Ответ сервера: {"success":true,"new_value":false}
 

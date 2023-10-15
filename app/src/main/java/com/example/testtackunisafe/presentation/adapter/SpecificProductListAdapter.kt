@@ -12,15 +12,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.testtackunisafe.R
 import com.example.testtackunisafe.databinding.ItemProductListBinding
 import com.example.testtackunisafe.domain.model.Product
+import com.example.testtackunisafe.domain.model.loadingReadyList.Item
 
 interface ActionListenerProduct{
-    fun deleteProduct(item_id: Int)
-    fun editProduct(item_id: Int)
+    fun deleteProduct(id: Int)
+    fun editProduct(id: Int)
 
 }
 class SpecificProductListAdapter(
     private val actionListenerProduct: ActionListenerProduct,
-    private val productList: ArrayList<Product>
+    private val productList: MutableList<Item>
 ):RecyclerView.Adapter<SpecificProductListAdapter.ItemProductViewHolder>(),View.OnClickListener {
     class ItemProductViewHolder(val binding: ItemProductListBinding)
         :RecyclerView.ViewHolder(binding.root)
@@ -45,13 +46,13 @@ class SpecificProductListAdapter(
     override fun onBindViewHolder(holder: ItemProductViewHolder, position: Int) {
         val product = productList[position]
         with(holder.binding){
-            btnDelete.tag=product.item_id
-            holder.itemView.tag = product.item_id
+            btnDelete.tag=product.id
+            holder.itemView.tag = product.id
 //            titleList.text = product.name
-            quantityProduct.text = product.quantity.toString()
+            quantityProduct.text = product.created.toString()
 
 
-            if (product.crossedOut) {
+            if (product.is_crossed) {
                 titleList.text = product.name
                 titleList.paintFlags = titleList.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 Log.i("TextCrossedOut","text is crossed out*")
@@ -63,13 +64,13 @@ class SpecificProductListAdapter(
     }
 
     override fun onClick(view: View?) {
-        val item_id = view?.tag as Int
+        val id = view?.tag as Int
         when(view.id){
             R.id.btnDelete -> {
-                actionListenerProduct.deleteProduct(item_id)
+                actionListenerProduct.deleteProduct(id)
             }
             else -> {
-                actionListenerProduct.editProduct(item_id)
+                actionListenerProduct.editProduct(id)
             }
         }
 

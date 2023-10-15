@@ -59,25 +59,32 @@ class CreateListsFragment : Fragment() {
             false
         )
         navController = findNavController()
+
         vm = ViewModelProvider(this).get(CreateListsVM::class.java)
+        vm.item.observe(APP_ACTIVITY, Observer {
+            if (it != null) {
+                addItemInShoppingList(it)
+
+            }
+        })
 
 
 
         adapter = ShopListAdapter(object : ActionListener {  // реализация интерфейса
             override fun deleteList(id: Int) { //  удаления
-                /*CoroutineScope(Dispatchers.IO).launch {
-                    val deletedItem = removeShoppingList(listId)
+                CoroutineScope(Dispatchers.IO).launch {
+                    val deletedItem = removeShoppingList(id)
                     Log.i("DeletedItem", "$deletedItem")
                     APP_ACTIVITY.runOnUiThread {
                         if (deletedItem == true) {
-                            val removedIndex = shoppingList.indexOfFirst { it.listId == listId }
+                            val removedIndex = listOfLists.indexOfFirst { it.id == id }
                             if (removedIndex != -1) {
-                                shoppingList.removeAt(removedIndex)
+                                listOfLists.removeAt(removedIndex)
                                 adapter.notifyDataSetChanged()
                             }
                         }
                     }
-                }*/ TODO("NOT IMPLEMENTATION")
+                }
             }
 
             override fun openList(id: Int) { // клик по элементу
@@ -102,11 +109,7 @@ class CreateListsFragment : Fragment() {
             showAddListDialog()
         }
 
-       vm.item.observe(APP_ACTIVITY, Observer {
-            if (it != null) {
-                addItemInShoppingList(it)
-            }
-        })
+
 
         val shopList = arguments?.getSerializable("shopList",ShopListData::class.java)
         if(shopList != null){
@@ -137,8 +140,8 @@ class CreateListsFragment : Fragment() {
 
     fun addItemInShoppingList(item: Shop) { // добавляем созданный эелемент в recyclerView
         listOfLists.add(item)
-        Log.i("NEWListID", "$item.id , ${item.name}")
         adapter.notifyDataSetChanged()
+        Log.i("NEWListID", "$item.id , ${item.name}")
         Log.i("Update RecyclerView", "get item in shoppingList")
 
     }

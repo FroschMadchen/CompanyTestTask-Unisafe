@@ -7,9 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.testtackunisafe.domain.RetrofitClient
 import com.example.testtackunisafe.domain.model.Product
-import com.example.testtackunisafe.domain.model.ReceivedData
+import com.example.testtackunisafe.domain.model.loadingReadyList.Item
 import kotlinx.coroutines.launch
-import retrofit2.Response
 
 
 /*Добавить товар в список - AddToShoppingList? и Вычеркнуть товар из списка -
@@ -24,11 +23,11 @@ https://cyberprot.ru/shopping/v1/RemoveShoppingList?list_id=2
 class CreateProductVM : ViewModel() {
     private val mainApi = RetrofitClient.mainApi
 
-    private val liveData = MutableLiveData<Product>()
-    val data: LiveData<Product?> = liveData
+    private val liveData = MutableLiveData<Item>()
+    val data: LiveData<Item?> = liveData
 
 
-    fun addProductToList(productList: MutableList<Product>, incomingProduct: Product) {
+    fun addProductToList(productList: MutableList<Item>, incomingProduct: Item) {
         viewModelScope.launch {
             val Product = addProductToServer(incomingProduct)
             liveData.value = Product
@@ -36,24 +35,24 @@ class CreateProductVM : ViewModel() {
         }
     }
 
-    private suspend fun addProductToServer(incomingProduct: Product): Product {
+    private suspend fun addProductToServer(incomingProduct: Item): Item {
         // https: cyberprot.ru/shopping/v1/AddToShoppingList?id=4&value=tools&n=3
         val info = mainApi.addToShoppingList(
-            id = incomingProduct.list_id,
+            id = incomingProduct.id,
             value = incomingProduct.name,
-            n = incomingProduct.quantity
+            n = incomingProduct.created.toInt()
         )
         if (info.isSuccessful) {
             val item_id: Int? = info.body()?.item_id
             if (item_id != null) {
-                val comingOutProduct = Product(
-                    incomingProduct.name,
-                    incomingProduct.quantity,
-                    incomingProduct.list_id,
-                    item_id
+                val comingOutProduct = Item(
+                    name = incomingProduct.name,
+                    created = incomingProduct.created,
+                    id = item_id,
+                   is_crossed = false
                 )
                 Log.i("addProductToServer"," name: ${comingOutProduct.name}," +
-                        "id item: ${comingOutProduct.item_id}")
+                        "id item: ${comingOutProduct.id}")
                 return comingOutProduct
 
             }else{
@@ -66,9 +65,13 @@ class CreateProductVM : ViewModel() {
     }
 
 
-    suspend fun crossltOff(item_id:Int,id_list:Int) { //вычеркнуть  товар  из корзину
+    suspend fun crossltOff(item_id:Int,id_list:Int):Boolean { //вычеркнуть  товар  из корзину
     // https://cyberprot.ru/shopping/v1/CrossItOff?list_id=276&id=45
-                mainApi.crossItOff(list_id = id_list, id = item_id)
+                val crossItOff = mainApi.crossItOff(list_id = id_list, id = item_id)
+        return crossItOff.isSuccessful
+
+
+
     }
 
     fun getShoppingList(){

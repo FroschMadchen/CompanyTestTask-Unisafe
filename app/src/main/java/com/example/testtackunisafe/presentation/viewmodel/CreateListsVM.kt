@@ -18,7 +18,6 @@ class CreateListsVM:ViewModel() {
  fun sendNameList(listName:String,listOfList: MutableList<Shop>){ // получаем имя списка
      viewModelScope.launch {
          val item = createShoppingList(KEY_VALUE, listName, listOfList = listOfList)
-
          itemLive.value = item
      }
   }
@@ -29,7 +28,6 @@ class CreateListsVM:ViewModel() {
     ): Shop? {
         val listId = mainApi.createShoppingList(dataKey, nameList)
         if (listId.isSuccessful) {
-
             val shopList: Shop? =
                 listId.body()?.list_id?.let { Shop("tame", it,nameList) }
                 /*listId.body()?.list_id?.let { Shop(it, nameList,listOfList) }*/

@@ -10,6 +10,6 @@ data class ProductListData(
 data class Item(
     val created: String,
     val id: Int,
-    val is_crossed: Boolean,
+    var is_crossed: Boolean,
     val name: String
 ):Serializable

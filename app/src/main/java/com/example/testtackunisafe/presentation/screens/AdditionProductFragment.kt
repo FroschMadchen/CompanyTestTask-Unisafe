@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +21,9 @@ import com.example.testtackunisafe.domain.model.loadingReadyList.ProductListData
 import com.example.testtackunisafe.presentation.adapter.ActionListenerProduct
 import com.example.testtackunisafe.presentation.adapter.SpecificProductListAdapter
 import com.example.testtackunisafe.presentation.viewmodel.CreateProductVM
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class AdditionProductFragment : Fragment() {
@@ -67,16 +71,17 @@ class AdditionProductFragment : Fragment() {
 
         adapter = SpecificProductListAdapter(object : ActionListenerProduct{
             override fun deleteProduct(id: Int) {
-              /*  val selectedItem = productList.indexOfFirst { it.id == id }
+               val selectedItem = productList.indexOfFirst { it.id == id }
                 if(selectedItem != -1){
                     val item =productList[selectedItem]
                     item.is_crossed = true
                     CoroutineScope(Dispatchers.IO).launch {
-                        vm.crossltOff(id,list_id)
+                        val crossltOff = vm.crossltOff(id,list_id)
+                        item.is_crossed = crossltOff
                     }
                     Log.i("deleteProduct mainUI","item: $selectedItem")
                     adapter.notifyDataSetChanged()
-                }*/ TODO("Not yet implemented")
+                }
 
             }
 
@@ -91,20 +96,19 @@ class AdditionProductFragment : Fragment() {
         vm = ViewModelProvider(this).get(CreateProductVM::class.java)
 
         _binding?.btnFloating?.setOnClickListener {
-//            showAddProductDialog(list_id)
+            showAddProductDialog(list_id)
         }
-
-      /*  vm.data.observe(APP_ACTIVITY) {
+         vm.data.observe(APP_ACTIVITY) {
             if (it != null) {
                 productList.add(it)
-                Log.i("liveData", "observe :${it.name},${it.item_id}")
+                Log.i("liveData", "observe :${it.name},${it.id}")
                 adapter.notifyDataSetChanged()
             }
-        }*/
+        }
         return mBinding.root
     }
 
-/*    fun showAddProductDialog(list_id: Int) { // диалоговое оконо, добавления продукта
+    fun showAddProductDialog(list_id: Int) { // диалоговое оконо, добавления продукта
         binding = DialogAddProductBinding.inflate(LayoutInflater.from(APP_ACTIVITY))
         val dialog = AlertDialog.Builder(APP_ACTIVITY)
             .setView(binding.root)
@@ -112,10 +116,11 @@ class AdditionProductFragment : Fragment() {
             .setPositiveButton("Сохранить") { _, _ ->
                 val nameProduct = binding.nameProduct.text.toString()
                 val quantityProduct = binding.quantityProduct.text.toString()
-                val incomingProduct = Product(
+                val incomingProduct = Item(
                     name = nameProduct,
-                    quantity = quantityProduct.toInt(),
-                    list_id = list_id
+                    created = quantityProduct,
+                    id = list_id,
+                    is_crossed = false
                 )
                 Log.i("showAddProductDialog"," name incomingProduct :${incomingProduct.name}")
                 vm.addProductToList(productList, incomingProduct)
@@ -123,7 +128,7 @@ class AdditionProductFragment : Fragment() {
             .setNegativeButton("Отменить",null)
             .create()
         dialog.show()
-    }*/
+    }
 }
 
 

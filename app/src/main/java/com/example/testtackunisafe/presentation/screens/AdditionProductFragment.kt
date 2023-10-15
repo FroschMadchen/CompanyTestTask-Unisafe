@@ -33,7 +33,8 @@ class AdditionProductFragment : Fragment() {
     private lateinit var binding: DialogAddProductBinding
 
     private lateinit var adapter: SpecificProductListAdapter
-//    private var productList = ArrayList<Product>()
+
+    //    private var productList = ArrayList<Product>()
     private var productList = mutableListOf<Item>()
     private lateinit var vm: CreateProductVM
 
@@ -50,13 +51,14 @@ class AdditionProductFragment : Fragment() {
             container,
             false
         )
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val list_item =arguments?.getSerializable("item_list",ProductListData::class.java)
+        val list_item = arguments?.getSerializable("item_list", ProductListData::class.java)
         val listID = arguments?.getInt("id_list")
-        if (list_item!= null && listID != null){
-                list_id = listID
+        if (list_item != null && listID != null) {
+            list_id = listID
             productList = list_item.item_list.toMutableList()
-            Log.i("BUNDEL f3","success get productList:${list_item.success}")
+            Log.i("BUNDEL f3", "success get productList:${list_item.success}")
             (activity as AppCompatActivity).supportActionBar?.title = listID.toString()
         }
 
@@ -69,27 +71,46 @@ class AdditionProductFragment : Fragment() {
                 Log.i("mainUI"," ID СПИСКА ${list_id}")
         }*/
 
-        adapter = SpecificProductListAdapter(object : ActionListenerProduct{
-            override fun deleteProduct(id: Int) {
-               val selectedItem = productList.indexOfFirst { it.id == id }
-                if(selectedItem != -1){
-                    val item =productList[selectedItem]
-                    item.is_crossed = true
+        adapter = SpecificProductListAdapter(object : ActionListenerProduct {
+            override fun crossItProduct(id: Int) {
+                val selectedItem = productList.indexOfFirst { it.id == id }
+                if (selectedItem != -1) {
+                    val item = productList[selectedItem]
+//                    item.is_crossed = true
                     CoroutineScope(Dispatchers.IO).launch {
-                        val crossltOff = vm.crossltOff(id,list_id)
-                        item.is_crossed = crossltOff
+                        val crossltOff = vm.crossltOff(id, list_id)
+                        if (crossltOff) {
+                            APP_ACTIVITY.runOnUiThread {
+                                item.is_crossed = crossltOff
+                                adapter.notifyDataSetChanged()
+                                Log.i("Strikethrough element ", "element crossed out: ${item.id}")
+                            }
+                        }
+
                     }
-                    Log.i("deleteProduct mainUI","item: $selectedItem")
-                    adapter.notifyDataSetChanged()
+                }
+            }
+
+            override fun deleteProduct(id: Int) {
+                val selectedItem = productList.indexOfFirst { it.id == id }
+                if (selectedItem != -1) {
+                    val item = productList[selectedItem]
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val remove = vm.removeFromList(list_id = list_id, item_id = id)
+                        Log.i("Remove", "$remove")
+
+                            APP_ACTIVITY.runOnUiThread {
+                                productList.removeAt(selectedItem)
+                                Log.i("crossProduct mainUI", "item: $selectedItem")
+                                adapter.notifyDataSetChanged()
+                            }
+                        }
+
+                    }
                 }
 
-            }
 
-            override fun editProduct(item_id: Int) {
-                TODO("Not yet implemented")
-            }
-
-        },productList)
+        }, productList)
         mBinding.recyclerViewProduct.layoutManager = LinearLayoutManager(APP_ACTIVITY)
         mBinding.recyclerViewProduct.adapter = adapter
 
@@ -98,7 +119,7 @@ class AdditionProductFragment : Fragment() {
         _binding?.btnFloating?.setOnClickListener {
             showAddProductDialog(list_id)
         }
-         vm.data.observe(APP_ACTIVITY) {
+        vm.data.observe(APP_ACTIVITY) {
             if (it != null) {
                 productList.add(it)
                 Log.i("liveData", "observe :${it.name},${it.id}")
@@ -122,13 +143,20 @@ class AdditionProductFragment : Fragment() {
                     id = list_id,
                     is_crossed = false
                 )
-                Log.i("showAddProductDialog"," name incomingProduct :${incomingProduct.name}")
+                Log.i("showAddProductDialog", " name incomingProduct :${incomingProduct.name}")
                 vm.addProductToList(productList, incomingProduct)
             }
-            .setNegativeButton("Отменить",null)
+            .setNegativeButton("Отменить", null)
             .create()
         dialog.show()
     }
+
+    fun onSupportNavigateUp(): Boolean {
+         // Или ваше собственное действие
+        return true
+    }
 }
+
+
 
 

@@ -20,8 +20,11 @@ class MainActivity : AppCompatActivity() {
         _binding = MainActivityBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
 
+
+
         mToolbar = mBinding.toolbar
         setSupportActionBar(mToolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         mNavConverter = Navigation.findNavController(this, R.id.nav_host_fragment)
         setSupportActionBar(mToolbar)
         title = getString(R.string.name_app_custom)
@@ -31,5 +34,9 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed() // Или ваше собственное действие
+        return true
     }
 }

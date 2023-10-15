@@ -2,21 +2,18 @@ package com.example.testtackunisafe.presentation.adapter
 
 
 import android.graphics.Paint
-import android.nfc.Tag
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
 import com.example.testtackunisafe.R
 import com.example.testtackunisafe.databinding.ItemProductListBinding
-import com.example.testtackunisafe.domain.model.Product
 import com.example.testtackunisafe.domain.model.loadingReadyList.Item
 
 interface ActionListenerProduct{
+    fun crossItProduct(id: Int)
     fun deleteProduct(id: Int)
-    fun editProduct(id: Int)
 
 }
 class SpecificProductListAdapter(
@@ -34,8 +31,10 @@ class SpecificProductListAdapter(
             false)
         binding.titleList
         binding.quantityProduct
-        binding.root.setOnClickListener(this)
+        binding.quantityProductEdit
+        binding.timeCreateProduct
         binding.btnDelete.setOnClickListener(this)
+        binding.btnCrossItOff.setOnClickListener(this)
         return ItemProductViewHolder(binding)
     }
 
@@ -47,10 +46,10 @@ class SpecificProductListAdapter(
         val product = productList[position]
         with(holder.binding){
             btnDelete.tag=product.id
-            holder.itemView.tag = product.id
-//            titleList.text = product.name
+            btnCrossItOff.tag= product.id
+//            holder.itemView.tag = product.id
+             titleList.text = product.name
             quantityProduct.text = product.created.toString()
-
 
             if (product.is_crossed) {
                 titleList.text = product.name
@@ -66,13 +65,14 @@ class SpecificProductListAdapter(
     override fun onClick(view: View?) {
         val id = view?.tag as Int
         when(view.id){
-            R.id.btnDelete -> {
-                actionListenerProduct.deleteProduct(id)
+            R.id.btnCrossItOff -> {
+                actionListenerProduct.crossItProduct(id)
             }
             else -> {
-                actionListenerProduct.editProduct(id)
+                actionListenerProduct.deleteProduct(id)
             }
         }
+
 
     }
 

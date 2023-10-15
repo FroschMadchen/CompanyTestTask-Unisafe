@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.testtackunisafe.domain.RetrofitClient
+import com.example.testtackunisafe.domain.RetrofitClientV2.mainApiV2
 import com.example.testtackunisafe.domain.model.Product
 import com.example.testtackunisafe.domain.model.loadingReadyList.Item
 import kotlinx.coroutines.launch
@@ -77,6 +78,19 @@ class CreateProductVM : ViewModel() {
     fun getShoppingList(){
     //Загрузить конкретный список - GetShoppingList?
 
+    }
+
+    fun removeFromList(list_id:Int,item_id:Int):Boolean{
+        var success = false
+        viewModelScope.launch {
+            val success1 = mainApiV2.removeFromList(list_id,item_id)
+            if (success1.isSuccessful){
+                success = true
+                Log.i("removeFromListSuccess","${success1.body()?.success}")
+            }
+
+        }
+        return success
     }
 
 

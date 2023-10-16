@@ -9,4 +9,7 @@
     <string name="create">Создать</string>
     <string name="save_text">Save</string>
     <string name="button_delete_product">button_delete_product</string>
+    <string name="purchased">КУПЛЕНО</string>
+    <string name="quantity">Quantity</string>
+    <string name="name_product">Name product</string>
 </resources>

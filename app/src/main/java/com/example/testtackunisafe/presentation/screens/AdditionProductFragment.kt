@@ -3,19 +3,24 @@ package com.example.testtackunisafe.presentation.screens
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.testtackunisafe.data.utils.APP_ACTIVITY
 import com.example.testtackunisafe.databinding.DialogAddProductBinding
 import com.example.testtackunisafe.databinding.FragmentAdditionProductBinding
+import com.example.testtackunisafe.domain.RetrofitClientV2
 import com.example.testtackunisafe.domain.model.loadingReadyList.Item
 import com.example.testtackunisafe.domain.model.loadingReadyList.ProductListData
 import com.example.testtackunisafe.presentation.adapter.ActionListenerProduct
@@ -40,6 +45,16 @@ class AdditionProductFragment : Fragment() {
 
     private var list_id: Int = 0
 
+    private val handler = Handler(Looper.getMainLooper())
+    private val refreshInterval = 10000L
+
+    private val refreshRunnable = object : Runnable {
+        override fun run() {
+            downloadListProduct()
+            handler.postDelayed(this, refreshInterval)
+        }
+    }
+
     @SuppressLint("SuspiciousIndentation")
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreateView(
@@ -61,6 +76,7 @@ class AdditionProductFragment : Fragment() {
             Log.i("BUNDEL f3", "success get productList:${list_item.success}")
             (activity as AppCompatActivity).supportActionBar?.title = listID.toString()
         }
+        handler.post(refreshRunnable)
 
         /*val keyText = arguments?.getSerializable("keyValue", ShopListConstructor::class.java)
         if (keyText != null) {
@@ -98,7 +114,6 @@ class AdditionProductFragment : Fragment() {
                     CoroutineScope(Dispatchers.IO).launch {
                         val remove = vm.removeFromList(list_id = list_id, item_id = id)
                         Log.i("Remove", "$remove")
-
                             APP_ACTIVITY.runOnUiThread {
                                 productList.removeAt(selectedItem)
                                 Log.i("crossProduct mainUI", "item: $selectedItem")
@@ -137,23 +152,46 @@ class AdditionProductFragment : Fragment() {
             .setPositiveButton("Сохранить") { _, _ ->
                 val nameProduct = binding.nameProduct.text.toString()
                 val quantityProduct = binding.quantityProduct.text.toString()
-                val incomingProduct = Item(
-                    name = nameProduct,
-                    created = quantityProduct,
-                    id = list_id,
-                    is_crossed = false
-                )
-                Log.i("showAddProductDialog", " name incomingProduct :${incomingProduct.name}")
-                vm.addProductToList(productList, incomingProduct)
+
+                if (nameProduct.isNotEmpty() && quantityProduct.isNotEmpty()){
+                    val incomingProduct = Item(
+                        name = nameProduct,
+                        created = quantityProduct,
+                        id = list_id,
+                        is_crossed = false
+                    )
+                    Log.i("showAddProductDialog", " name incomingProduct :${incomingProduct.name}")
+                    vm.addProductToList(productList, incomingProduct)
+                } else{
+                    Toast.makeText(APP_ACTIVITY,"Нужно заполнить все поля",Toast.LENGTH_SHORT).show()
+                }
             }
             .setNegativeButton("Отменить", null)
             .create()
         dialog.show()
     }
 
-    fun onSupportNavigateUp(): Boolean {
-         // Или ваше собственное действие
-        return true
+    fun downloadListProduct() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val listNew = RetrofitClientV2.mainApiV2.getSoppingList(list_id)
+            if (listNew.isSuccessful) {
+                APP_ACTIVITY.runOnUiThread {
+                    val list = listNew.body()?.item_list
+                    productList.clear()
+                    if (list != null) {
+                        productList.addAll(list)
+                        adapter.notifyDataSetChanged()
+                    }
+
+                }
+            }
+        }
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.removeCallbacks(refreshRunnable)
     }
 }
 

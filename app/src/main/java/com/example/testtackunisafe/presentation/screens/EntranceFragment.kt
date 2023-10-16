@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -34,9 +35,13 @@ class EntranceFragment : Fragment() {
     ): View {
         _binding = FragmentEntranceBinding.inflate(layoutInflater, container, false)
 
+
+        (activity as AppCompatActivity).supportActionBar?.title
+
         navController = findNavController()
         val mainApi = RetrofitClient.mainApi
         vm = ViewModelProvider(this).get(DownloadList::class.java)
+
 
 
 
@@ -46,21 +51,22 @@ class EntranceFragment : Fragment() {
             KEY_VALUE = inputKey
             try{
                 CoroutineScope(Dispatchers.IO).launch{
-                    val shopListData = vm.getAllMyShopLists(inputKey)
-                    Log.i("MessageEntranceFrag", "success get data from VM :${shopListData?.success}")
-                    if(shopListData != null){
+//                    val shopListData = vm.getAllMyShopLists(inputKey)
+//                    Log.i("MessageEntranceFrag", "success get data from VM :${shopListData?.success}")
+//                    if(shopListData != null){
                             APP_ACTIVITY.runOnUiThread {
-                                Log.i("Transaction", "action_entrance_to_createListsProducts")
+                                /*Log.i("Transaction", "action_entrance_to_createListsProducts")
                                 val bundle = Bundle()
-                                bundle.putSerializable("shopList",shopListData)
-                                navController.navigate(R.id.action_entrance_to_createListsProducts,bundle)
+                                bundle.putSerializable("shopList",shopListData)*/
+                                navController.navigate(R.id.action_entrance_to_createListsProducts)//bundle
                             }
                     }
-                }
-            }catch (e:Exception){
-                Log.i("EntrenceFragment"," ${e.message}")
+
+           }catch (e:Exception){
+//                Log.i("EntrenceFragment"," ${e.message}")
             }
         }
+
 
         _binding!!.startBtn.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
@@ -72,7 +78,7 @@ class EntranceFragment : Fragment() {
                 APP_ACTIVITY.runOnUiThread {
             /* val createListsProductsFragment = CreateListsFragment() // новый экзмепляр фрагмент
                     val bundle = Bundle()
-                    bundle.putString("keyValue", keyValue)
+                    bundle.putString("keyValue", keyValue) //что за бред ?
                     Log.i("KeyValue","keyValue $keyValue")
                     createListsProductsFragment.arguments = bundle*/
                     navController.navigate(R.id.action_entrance_to_createListsProducts)

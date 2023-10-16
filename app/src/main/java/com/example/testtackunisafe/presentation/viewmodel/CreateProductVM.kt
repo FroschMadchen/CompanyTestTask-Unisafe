@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.testtackunisafe.data.utils.APP_ACTIVITY
 import com.example.testtackunisafe.domain.RetrofitClient
 import com.example.testtackunisafe.domain.RetrofitClientV2.mainApiV2
 import com.example.testtackunisafe.domain.model.Product
@@ -29,9 +30,10 @@ class CreateProductVM : ViewModel() {
 
 
     fun addProductToList(productList: MutableList<Item>, incomingProduct: Item) {
+        // добовляю продукт в список
         viewModelScope.launch {
-            val Product = addProductToServer(incomingProduct)
-            liveData.value = Product
+            val product = addProductToServer(incomingProduct)
+            liveData.value = product
             Log.i("addProductToList "," in ViewModel")
         }
     }
@@ -75,7 +77,21 @@ class CreateProductVM : ViewModel() {
 
     }
 
-    fun getShoppingList(){
+    fun getShoppingList(list_id: Int){
+       /* var listN: List<Item>? = null
+        viewModelScope.launch {
+            val listNew = mainApiV2.getSoppingList(list_id)
+            if (listNew.isSuccessful){
+                APP_ACTIVITY.runOnUiThread{
+                    val list = listNew.body()?.item_list
+                     listN = list
+                }
+
+            }
+
+        }
+        return listN*/
+
     //Загрузить конкретный список - GetShoppingList?
 
     }

@@ -5,15 +5,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.testtackunisafe.domain.RetrofitClient
 import com.example.testtackunisafe.domain.model.loadingReadyList.ShopListData
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class DownloadList : ViewModel() {
+class DownloadList:ViewModel() {
     private val mainApi = RetrofitClient.mainApi
 
-    suspend fun getAllMyShopLists(key: String): ShopListData? { //Получить перечень списков
-        var dataListOfLists: ShopListData? = null
+   /* suspend fun getAllMyShopLists(key: String): ShopListData? { //Получить перечень списков
+
+
+      var dataListOfLists: ShopListData? = null
         return suspendCoroutine { continuation ->
             viewModelScope.launch {
                 try {
@@ -29,5 +33,9 @@ class DownloadList : ViewModel() {
                 }
             }
         }
+    }*/
+
+    fun updateData(dataListOfLists: ShopListData?) {
+
     }
 }

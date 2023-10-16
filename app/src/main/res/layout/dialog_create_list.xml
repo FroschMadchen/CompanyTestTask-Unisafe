@@ -9,11 +9,12 @@
 
     <EditText
         android:id="@+id/nameList"
-        android:layout_width="331dp"
-        android:layout_height="53dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin"
+        android:ems="10"
         android:hint="@string/name_list"
-        android:background="@color/barbi"
+        android:textSize="@dimen/text_size_28sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

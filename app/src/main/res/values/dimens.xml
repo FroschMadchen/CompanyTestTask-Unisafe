@@ -4,4 +4,5 @@
     <dimen name="margin">15dp</dimen>
     <dimen name="text_size_midl">16sp</dimen>
     <dimen name="margin_start_middle">20dp</dimen>
+    <dimen name="text_size_28sp">28sp</dimen>
 </resources>

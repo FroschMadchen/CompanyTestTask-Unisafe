@@ -32,7 +32,6 @@ class SpecificProductListAdapter(
         binding.titleList
         binding.quantityProduct
         binding.quantityProductEdit
-        binding.timeCreateProduct
         binding.btnDelete.setOnClickListener(this)
         binding.btnCrossItOff.setOnClickListener(this)
         return ItemProductViewHolder(binding)
@@ -50,14 +49,17 @@ class SpecificProductListAdapter(
 //            holder.itemView.tag = product.id
              titleList.text = product.name
             quantityProduct.text = product.created.toString()
+            quantityProductEdit.text
+
 
             if (product.is_crossed) {
                 titleList.text = product.name
                 titleList.paintFlags = titleList.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                Log.i("TextCrossedOut","text is crossed out*")
+                Log.i("TextCrossedOut","${product.id} text is crossed out*")
             } else {
                 titleList.text = product.name
                 titleList.paintFlags = titleList.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+                Log.i("NOTTextCrossedOut"," ${product.id} text is crossed NOT out*")
             }
         }
     }

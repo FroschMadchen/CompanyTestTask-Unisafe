@@ -11,7 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/barbi"
+
         android:layout_margin="@dimen/margin_start_middle">
 
         <EditText
@@ -20,15 +20,15 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_start_middle"
             android:layout_marginTop="@dimen/text_size_large"
-            android:gravity="left"
+
             android:textColor="@color/btn_barbi"
-            android:textSize="@dimen/text_size_large"
+            android:textSize="@dimen/text_size_28sp"
             android:layout_marginEnd="@dimen/margin_start_middle"
-            android:background="@color/white"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:hint="Name product" />
+            android:hint="@string/name_product" />
 
         <EditText
             android:id="@+id/quantityProduct"
@@ -36,17 +36,30 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_start_middle"
             android:layout_marginTop="@dimen/text_size_midl"
-            android:layout_marginBottom="16dp"
-            android:gravity="left"
-            android:textSize="@dimen/text_size_midl"
-            android:background="@color/white"
             android:layout_marginEnd="@dimen/margin_start_middle"
+            android:layout_marginBottom="16dp"
+            android:textSize="@dimen/text_size_28sp"
+            android:hint="@string/quantity"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nameProduct"
-            tools:hint="Quantity" />
+            app:layout_constraintVertical_bias="0.634" />
 
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.3"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/img" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

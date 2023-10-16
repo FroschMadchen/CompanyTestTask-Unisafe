@@ -44,6 +44,9 @@ android {
 
 dependencies {
 
+    //WorkManager
+    implementation ("androidx.work:work-runtime:2.8.1")
+
     val nav_version = "2.7.3"
 
     // Java language implementation

@@ -11,7 +11,6 @@ import com.example.testtackunisafe.domain.model.loadingReadyList.Shop
 interface ActionListener{
     fun deleteList(id: Int)
     fun openList(id: Int)
-
 }
 class ShopListAdapter(
     private val actionListener: ActionListener,
@@ -23,7 +22,11 @@ class ShopListAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShopItemViewHolder {
 
         val inflater = LayoutInflater.from(parent.context)
-        val binding:ItemShoppingListBinding= ItemShoppingListBinding.inflate(inflater,parent,false)
+        val binding:ItemShoppingListBinding= ItemShoppingListBinding.inflate(
+            inflater,
+            parent,
+            false
+        )
 
         binding.root.setOnClickListener(this)
         binding.btnDelete.setOnClickListener(this)

@@ -38,11 +38,8 @@ class AdditionProductFragment : Fragment() {
     private lateinit var binding: DialogAddProductBinding
 
     private lateinit var adapter: SpecificProductListAdapter
-
-    //    private var productList = ArrayList<Product>()
     private var productList = mutableListOf<Item>()
     private lateinit var vm: CreateProductVM
-
     private var list_id: Int = 0
 
     private val handler = Handler(Looper.getMainLooper())
@@ -68,31 +65,20 @@ class AdditionProductFragment : Fragment() {
         )
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val list_item = arguments?.getSerializable("item_list", ProductListData::class.java)
+
         val listID = arguments?.getInt("id_list")
-        if (list_item != null && listID != null) {
+        if ( listID != null) {
             list_id = listID
-            productList = list_item.item_list.toMutableList()
-            Log.i("BUNDEL f3", "success get productList:${list_item.success}")
+
             (activity as AppCompatActivity).supportActionBar?.title = listID.toString()
         }
         handler.post(refreshRunnable)
-
-        /*val keyText = arguments?.getSerializable("keyValue", ShopListConstructor::class.java)
-        if (keyText != null) {
-            list_id = keyText.listId
-            productList = keyText.list
-            (activity as AppCompatActivity).supportActionBar?.title = keyText.name
-
-                Log.i("mainUI"," ID СПИСКА ${list_id}")
-        }*/
 
         adapter = SpecificProductListAdapter(object : ActionListenerProduct {
             override fun crossItProduct(id: Int) {
                 val selectedItem = productList.indexOfFirst { it.id == id }
                 if (selectedItem != -1) {
                     val item = productList[selectedItem]
-//                    item.is_crossed = true
                     CoroutineScope(Dispatchers.IO).launch {
                         val crossltOff = vm.crossltOff(id, list_id)
                         if (crossltOff) {
@@ -106,7 +92,6 @@ class AdditionProductFragment : Fragment() {
                     }
                 }
             }
-
             override fun deleteProduct(id: Int) {
                 val selectedItem = productList.indexOfFirst { it.id == id }
                 if (selectedItem != -1) {
@@ -123,8 +108,6 @@ class AdditionProductFragment : Fragment() {
 
                     }
                 }
-
-
         }, productList)
         mBinding.recyclerViewProduct.layoutManager = LinearLayoutManager(APP_ACTIVITY)
         mBinding.recyclerViewProduct.adapter = adapter
@@ -143,7 +126,6 @@ class AdditionProductFragment : Fragment() {
         }
         return mBinding.root
     }
-
     fun showAddProductDialog(list_id: Int) { // диалоговое оконо, добавления продукта
         binding = DialogAddProductBinding.inflate(LayoutInflater.from(APP_ACTIVITY))
         val dialog = AlertDialog.Builder(APP_ACTIVITY)
@@ -187,8 +169,6 @@ class AdditionProductFragment : Fragment() {
             }
         }
     }
-
-
     override fun onDestroy() {
         super.onDestroy()
         handler.removeCallbacks(refreshRunnable)

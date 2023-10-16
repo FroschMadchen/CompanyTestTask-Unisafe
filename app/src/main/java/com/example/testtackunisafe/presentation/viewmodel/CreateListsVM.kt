@@ -42,15 +42,14 @@ class CreateListsVM:ViewModel() {
             Log.i("createShoppingListVM","${listId.body()?.list_id}")
             return shopList
         } else {
-            Log.e("createShoppingListVM", "Failed to create a shopping list. Response code: ${listId.code()}")
+            Log.e("createShoppingListVM",
+                "Failed to create a shopping list. Response code: ${listId.code()}")
 
             return null
         }
     }
 
     suspend fun getAllMyShopLists(key: String): ShopListData? { //Получить перечень списков
-
-
         var dataListOfLists: ShopListData? = null
         return suspendCoroutine { continuation ->
             viewModelScope.launch {
@@ -60,7 +59,6 @@ class CreateListsVM:ViewModel() {
                         dataListOfLists = successfulLogin.body()!!
                         continuation.resume(dataListOfLists)
                     }
-
                     Log.i("getAllMyShopListsVM", "${successfulLogin.body()?.success}")
                 } catch (e: Exception) {
                     Log.i("ERROR", "${e.message}")

@@ -24,10 +24,8 @@ import kotlinx.coroutines.launch
 
 class EntranceFragment : Fragment() {
     private var _binding: FragmentEntranceBinding? = null
-    private  lateinit var vm:DownloadList
     private val mBinding get() = _binding!!
     lateinit var navController: NavController
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,39 +33,18 @@ class EntranceFragment : Fragment() {
     ): View {
         _binding = FragmentEntranceBinding.inflate(layoutInflater, container, false)
 
-
-        (activity as AppCompatActivity).supportActionBar?.title
+        (activity as AppCompatActivity).supportActionBar?.title = "Shopping List"
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
         navController = findNavController()
         val mainApi = RetrofitClient.mainApi
-        vm = ViewModelProvider(this).get(DownloadList::class.java)
-
-
-
-
 
         _binding!!.downloadListBtn.setOnClickListener {
             val inputKey = _binding?.editTextKey?.text.toString()
             KEY_VALUE = inputKey
-            try{
-                CoroutineScope(Dispatchers.IO).launch{
-//                    val shopListData = vm.getAllMyShopLists(inputKey)
-//                    Log.i("MessageEntranceFrag", "success get data from VM :${shopListData?.success}")
-//                    if(shopListData != null){
-                            APP_ACTIVITY.runOnUiThread {
-                                /*Log.i("Transaction", "action_entrance_to_createListsProducts")
-                                val bundle = Bundle()
-                                bundle.putSerializable("shopList",shopListData)*/
-                                navController.navigate(R.id.action_entrance_to_createListsProducts)//bundle
-                            }
-                    }
+            navController.navigate(R.id.action_entrance_to_createListsProducts)//bundle
 
-           }catch (e:Exception){
-//                Log.i("EntrenceFragment"," ${e.message}")
-            }
         }
-
-
         _binding!!.startBtn.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 val keyValue = createTestKey(mainApi)
@@ -76,21 +53,18 @@ class EntranceFragment : Fragment() {
                 val successfulLogin: Boolean = authentication(mainApi, keyValue)
                 Log.i("SuccessfulLogin", "Successful login: " + successfulLogin)
                 APP_ACTIVITY.runOnUiThread {
-            /* val createListsProductsFragment = CreateListsFragment() // новый экзмепляр фрагмент
-                    val bundle = Bundle()
-                    bundle.putString("keyValue", keyValue) //что за бред ?
-                    Log.i("KeyValue","keyValue $keyValue")
-                    createListsProductsFragment.arguments = bundle*/
                     navController.navigate(R.id.action_entrance_to_createListsProducts)
                 }
             }
         }
         return mBinding.root
     }
+
     private suspend fun authentication(mainApi: MainApi, keyValue: String): Boolean {
         val success = mainApi.authentication(keyValue = keyValue)
         return success.success
     }
+
     private suspend fun createTestKey(mainApi: MainApi): String {
         val key = mainApi.createTestKey()
         return if (key.isSuccessful) {
@@ -101,6 +75,5 @@ class EntranceFragment : Fragment() {
             "missing key"
         }
     }
-
 }
 

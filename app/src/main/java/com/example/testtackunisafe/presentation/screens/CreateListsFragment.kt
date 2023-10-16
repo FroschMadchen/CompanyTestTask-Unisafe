@@ -30,9 +30,7 @@ import com.example.testtackunisafe.presentation.viewmodel.CreateListsVM
 import com.example.testtackunisafe.data.utils.APP_ACTIVITY
 import com.example.testtackunisafe.data.utils.KEY_VALUE
 import com.example.testtackunisafe.domain.RetrofitClientV2.mainApiV2
-import com.example.testtackunisafe.domain.model.Product
 import com.example.testtackunisafe.domain.model.loadingReadyList.Shop
-import com.example.testtackunisafe.domain.model.loadingReadyList.ShopListData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -48,10 +46,7 @@ class CreateListsFragment : Fragment() {
 
     private lateinit var adapter: ShopListAdapter
 
-    //    private val shoppingList = ArrayList<ShopListConstructor>() // список списков
-    private val productList = ArrayList<Product>() // списко продуктов
-
-    private var listOfLists = mutableListOf<Shop>() //ПЕРЕЧЕНЬ СПИСОК
+    private var listOfLists = mutableListOf<Shop>() //перечень списков
 
 
     private val handler = Handler(Looper.getMainLooper())
@@ -62,7 +57,7 @@ class CreateListsFragment : Fragment() {
             downloadList()
             handler.postDelayed(this, refreshInterval)
         }
-        }
+    }
 
     @SuppressLint("NotifyDataSetChanged")
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -82,6 +77,7 @@ class CreateListsFragment : Fragment() {
         navController = findNavController()
 
         (activity as AppCompatActivity).supportActionBar?.title = "$KEY_VALUE"
+
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         adapter = ShopListAdapter(object : ActionListener {  // реализация интерфейса
@@ -104,24 +100,14 @@ class CreateListsFragment : Fragment() {
             }
         }, listOfLists)
 
-
-
         _binding?.recyclerViewProduct?.layoutManager = LinearLayoutManager(APP_ACTIVITY)
         _binding?.recyclerViewProduct?.adapter = adapter
 
         _binding?.btnAddProduct1?.setOnClickListener {// FloatingActionButton
             showAddListDialog()
         }
-        /* val shopList = arguments?.getSerializable("shopList",ShopListData::class.java)
-        if(shopList != null){
-            val list: List<Shop> = shopList.shop_list
-            listOfLists.clear()
-            listOfLists.addAll(list)
-            Log.i("New value","${listOfLists.size}")
-            adapter.notifyDataSetChanged()
-        } */
 
-        vm.item.observe(APP_ACTIVITY, Observer {item ->
+        vm.item.observe(APP_ACTIVITY, Observer { item ->
             if (item != null && !listOfLists.any { it.id == item.id }) {
                 addItemInShoppingList(item)
                 adapter.notifyItemChanged(item.id)
@@ -130,7 +116,6 @@ class CreateListsFragment : Fragment() {
 
         return mBinding.root
     }
-
 
     private suspend fun removeShoppingList(listId: Int): Boolean? { // удаление списка
         val isSuccessRemove = mainApi.removeShoppingList(listId)
@@ -141,12 +126,9 @@ class CreateListsFragment : Fragment() {
         }
     }
 
-    fun addItemInShoppingList(item: Shop) { // добавляем созданный эелемент в recyclerView
+    fun addItemInShoppingList(item: Shop) { // добавляем созданный елемент в recyclerView
         listOfLists.add(item)
-
-        Log.i("NEWListID", "$item.id , ${item.name}")
-        Log.i("Update RecyclerView", "get item in shoppingList")
-
+        Log.i("UpdateRecyclerView", "$item.id , ${item.name}")
     }
 
     fun showAddListDialog() { // диалоговое окно, создание списка
@@ -165,7 +147,6 @@ class CreateListsFragment : Fragment() {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-//                addItemInShoppingList(item)
             }
             .setNegativeButton("Отмена", null)
             .create()
@@ -178,10 +159,9 @@ class CreateListsFragment : Fragment() {
             val productInfo = mainApiV2.getSoppingList(id)
             if (productInfo.isSuccessful)
                 APP_ACTIVITY.runOnUiThread {
-                    val product = productInfo.body()
+
                     val bundle = Bundle()
                     bundle.putInt("id_list", id)
-                    bundle.putSerializable("item_list", product)
                     navController.navigate(
                         R.id.action_createListsProducts_to_additionProduct,
                         bundle
@@ -189,6 +169,7 @@ class CreateListsFragment : Fragment() {
                 }
         }
     }
+
     fun downloadList() {
         CoroutineScope(Dispatchers.IO).launch {
             val shopListData = vm.getAllMyShopLists(KEY_VALUE)
@@ -204,6 +185,7 @@ class CreateListsFragment : Fragment() {
             }
         }
     }
+
     override fun onDestroy() {
         super.onDestroy()
         handler.removeCallbacks(refreshRunnable)

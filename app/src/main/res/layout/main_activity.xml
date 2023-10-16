@@ -18,6 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:title="@string/name_app_custom"
         app:menu="@menu/menu_exit"
+        app:showAsAction = "ifRoom"
         app:titleMarginStart="90dp"
         app:titleTextAppearance="@style/TextAppearance.AppCompat.Display1"
         app:titleTextColor="@color/white" />
